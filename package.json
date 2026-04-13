@@ -1,0 +1,30 @@
+{
+  "name": "gamejam-machine",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KnTest12/GameJam-Machine.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/KnTest12/GameJam-Machine/issues"
+  },
+  "homepage": "https://github.com/KnTest12/GameJam-Machine#readme",
+  "dependencies": {
+    "phaser": "^4.0.0"
+  },
+  "devDependencies": {
+    "vite": "^6.4.2"
+  }
+}
