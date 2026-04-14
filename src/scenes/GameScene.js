@@ -34,26 +34,10 @@ export default class GameScene extends Phaser.Scene {
       classType: Enemy,
     });
     this.enemies.create(600, 300);
+    this.enemies.create(500, 250);
+    this.enemies.create(500, 350);
 
-    //bullet & enemy interaction
-    this.physics.add.overlap(
-      this.player.bullets,
-      this.enemy,
-      (bullet, enemy) => {
-        bullet.setActive(false);
-        bullet.setVisible(false);
-        bullet.body.enable = false;
-
-        const isDead = enemy.takeDamage(1);
-        if (isDead) {
-          console.log("enemy dead!");
-        }
-      },
-      null,
-      this,
-    );
-
-    //enemy & player interaction
+    //enemy & player's bullet interaction
     this.physics.add.overlap(
       this.player.bullets,
       this.enemies,
@@ -65,7 +49,9 @@ export default class GameScene extends Phaser.Scene {
         const isDead = enemy.takeDamage(1);
 
         if (isDead) {
-          this.scene.start(SCENES.GAME_OVER);
+          if (this.enemies.countActive() === 0) {
+            this.scene.start(SCENES.GAME_OVER);
+          }
         }
       },
       null,
