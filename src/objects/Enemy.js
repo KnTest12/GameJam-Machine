@@ -17,7 +17,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
   takeDamage(amount) {
     const isDead = this.health.takeDamage(amount);
     if (isDead) {
-      this.destroy;
+      this.destroy();
     }
     return isDead;
   }
