@@ -9,4 +9,8 @@ export default class AudioManager {
     this.scene.events.on("enemyHit", () => this.play("enemyHit"));
     this.scene.events.on("enemyDeath", () => this.play("enemyDeath"));
   }
+
+  play(key, config = {}) {
+    this.scene.sound.play(key, { volume: 0.5, ...config });
+  }
 }

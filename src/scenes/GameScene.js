@@ -3,13 +3,22 @@ import { SCENES } from "../constants/scenes.js";
 import Player from "../objects/Player.js";
 import Enemy from "../objects/Enemy.js";
 import Bullet from "../objects/Bullet.js";
+import AudioManager from "../systems/AudioManager.js";
 
 export default class GameScene extends Phaser.Scene {
   constructor() {
     super(SCENES.GAME);
   }
 
+  preload() {
+    this.load.audio("playerShoot", "../assets/audio/playerShoot.wav");
+    this.load.audio("enemyHit", "../assets/audio/enemyHit.wav");
+    this.load.audio("enemyDeath", "../assets/audio/enemyDeath.wav");
+  }
+
   create() {
+    this.audio = new AudioManager(this);
+
     this.physics.world.setBounds(0, 0, 800, 600);
 
     //placeholders texture
