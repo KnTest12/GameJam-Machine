@@ -65,7 +65,6 @@ export default class GameScene extends Phaser.Scene {
         const isDead = enemy.takeDamage(1);
 
         if (isDead) {
-          console.log("enemy dead!");
           this.scene.start(SCENES.GAME_OVER);
         }
       },
