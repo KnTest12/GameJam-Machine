@@ -7,7 +7,7 @@ export default class ShootComponent {
     this.canShoot = true;
     this.cooldown = 500;
     this.spacebar = scene.input.keyboard.addKey(
-      Phaser.Input.Keyboard.KeyCodes.Space,
+      Phaser.Input.Keyboard.KeyCodes.SPACE,
     );
   }
 
