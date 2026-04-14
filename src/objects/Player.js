@@ -21,7 +21,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     });
 
     this.body.setSize(30, 30);
-    this.setColliderWorldBounds(true);
+    this.setCollideWorldBounds(true);
   }
 
   takeDamage(amount) {
