@@ -12,7 +12,7 @@ export default class GameOverScene extends Phaser.Scene {
     });
 
     this.input.keyboard.once("keydown-R", () => {
-      this.scene.start(SCENES.MENU);
+      this.scene.start(SCENES.GAME);
     });
   }
 }
