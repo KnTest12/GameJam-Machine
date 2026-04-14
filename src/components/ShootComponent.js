@@ -24,6 +24,7 @@ export default class ShootComponent {
     if (!bullet) return;
 
     bullet.fire(this.sprite.x, this.sprite.y);
+    this.scene.events.emit("playerShoot");
     this.canShoot = false;
 
     this.scene.time.delayedCall(this.cooldown, () => {
