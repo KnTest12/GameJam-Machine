@@ -4,6 +4,7 @@ import Player from "../objects/Player.js";
 import Enemy from "../objects/Enemy.js";
 import Bullet from "../objects/Bullet.js";
 import AudioManager from "../systems/AudioManager.js";
+import StageManager from "../systems/StageManager.js";
 
 export default class GameScene extends Phaser.Scene {
   constructor() {
@@ -18,6 +19,7 @@ export default class GameScene extends Phaser.Scene {
 
   create() {
     this.audio = new AudioManager(this);
+    this.stage = new StageManager(this);
 
     this.physics.world.setBounds(0, 0, 800, 600);
 
@@ -43,10 +45,9 @@ export default class GameScene extends Phaser.Scene {
       classType: Enemy,
     });
 
-    //stage logic temporary
+    //stage logic
     this.gameState = "playing";
-    this.currentStage = 1;
-    this.loadStage(this.currentStage);
+    this.stage.startStage();
 
     //enemy & player's bullet interaction
     this.physics.add.overlap(
@@ -59,8 +60,8 @@ export default class GameScene extends Phaser.Scene {
 
         const isDead = enemy.takeDamage(1);
 
-        if (isDead) {
-          this.checkStageClear();
+        if (isDead && this.stage.isStageCleared()) {
+          this.onStageClear();
         }
       },
       null,
@@ -72,39 +73,7 @@ export default class GameScene extends Phaser.Scene {
     this.player.update();
   }
 
-  //temp
-  loadStage(stage) {
-    this.enemies.clear(true, true);
-
-    switch (stage) {
-      case 1:
-        this.enemies.create(600, 300);
-        break;
-
-      case 2:
-        this.enemies.create(600, 200);
-        this.enemies.create(600, 400);
-        break;
-
-      case 3:
-        this.enemies.create(500, 150);
-        this.enemies.create(600, 300);
-        this.enemies.create(500, 450);
-        break;
-    }
-  }
-
-  //temp
-  checkStageClear() {
-    if (this.gameState !== "playing") return;
-
-    if (this.enemies.countActive() === 0) {
-      this.onStageClear(this.currentStage);
-    }
-  }
-
-  //temp
-  onStageClear(stage) {
+  onStageClear() {
     this.gameState = "clearing";
     this.physics.pause();
 
@@ -118,17 +87,16 @@ export default class GameScene extends Phaser.Scene {
     this.time.delayedCall(1000, () => {
       text.destroy();
 
-      this.currentStage++;
+      this.stage.nextStage();
       this.player.resetPosition(200, 300);
-
-      if (this.currentStage > 3) {
-        this.scene.start(SCENES.GAME_OVER);
-      } else {
-        this.player.clearBullets();
-        this.loadStage(this.currentStage);
-        this.physics.resume();
-        this.gameState = "playing";
-      }
+      this.player.clearBullets();
+      this.physics.resume();
+      this.gameState = "playing";
     });
+  }
+
+  spawnEnemy(data) {
+    const enemy = this.enemies.create(data.x, data.y);
+    enemy.type = data.type;
   }
 }
