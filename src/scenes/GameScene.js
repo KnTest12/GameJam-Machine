@@ -42,9 +42,11 @@ export default class GameScene extends Phaser.Scene {
     this.enemies = this.physics.add.group({
       classType: Enemy,
     });
-    this.enemies.create(600, 300);
-    this.enemies.create(500, 250);
-    this.enemies.create(500, 350);
+
+    //stage logic temporary
+    this.gameState = "playing";
+    this.currentStage = 1;
+    this.loadStage(this.currentStage);
 
     //enemy & player's bullet interaction
     this.physics.add.overlap(
@@ -58,9 +60,7 @@ export default class GameScene extends Phaser.Scene {
         const isDead = enemy.takeDamage(1);
 
         if (isDead) {
-          if (this.enemies.countActive() === 0) {
-            this.scene.start(SCENES.GAME_OVER);
-          }
+          this.checkStageClear();
         }
       },
       null,
@@ -70,5 +70,65 @@ export default class GameScene extends Phaser.Scene {
 
   update() {
     this.player.update();
+  }
+
+  //temp
+  loadStage(stage) {
+    this.enemies.clear(true, true);
+
+    switch (stage) {
+      case 1:
+        this.enemies.create(600, 300);
+        break;
+
+      case 2:
+        this.enemies.create(600, 200);
+        this.enemies.create(600, 400);
+        break;
+
+      case 3:
+        this.enemies.create(500, 150);
+        this.enemies.create(600, 300);
+        this.enemies.create(500, 450);
+        break;
+    }
+  }
+
+  //temp
+  checkStageClear() {
+    if (this.gameState !== "playing") return;
+
+    if (this.enemies.countActive() === 0) {
+      this.onStageClear(this.currentStage);
+    }
+  }
+
+  //temp
+  onStageClear(stage) {
+    this.gameState = "clearing";
+    this.physics.pause();
+
+    const text = this.add
+      .text(400, 300, "STAGE CLEAR", {
+        fontSize: "32px",
+        color: "#ffffff",
+      })
+      .setOrigin(0.5);
+
+    this.time.delayedCall(1000, () => {
+      text.destroy();
+
+      this.currentStage++;
+      this.player.resetPosition(200, 300);
+
+      if (this.currentStage > 3) {
+        this.scene.start(SCENES.GAME_OVER);
+      } else {
+        this.player.clearBullets();
+        this.loadStage(this.currentStage);
+        this.physics.resume();
+        this.gameState = "playing";
+      }
+    });
   }
 }

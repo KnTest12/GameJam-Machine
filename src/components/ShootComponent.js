@@ -18,7 +18,7 @@ export default class ShootComponent {
   }
 
   fire(bulletGroup) {
-    if (!this.canShoot) return;
+    if (!this.canShoot || this.scene.gameState !== "playing") return;
 
     const bullet = bulletGroup.get(this.sprite.x + 20, this.sprite.y);
     if (!bullet) return;

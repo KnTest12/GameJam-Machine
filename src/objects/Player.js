@@ -29,6 +29,17 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     return isDead;
   }
 
+  clearBullets() {
+    this.bullets.getChildren().forEach((bullet) => {
+      bullet.disableBody(true, true);
+    });
+  }
+
+  resetPosition(x, y) {
+    this.setPosition(x, y);
+    this.body.setVelocity(0, 0);
+  }
+
   update() {
     this.movement.update();
     this.shooter.update(this.bullets);
