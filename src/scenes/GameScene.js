@@ -1,7 +1,9 @@
 import * as Phaser from "phaser";
 import { SCENES } from "../constants/scenes.js";
 import Player from "../objects/Player.js";
-import Enemy from "../objects/Enemy.js";
+import Enemy from "../objects/enemies/Enemy.js";
+import TurretEnemy from "../objects/enemies/TurretEnemy.js";
+import CoilEnemy from "../objects/enemies/CoilEnemy.js";
 import Bullet from "../objects/Bullet.js";
 import AudioManager from "../systems/AudioManager.js";
 import StageManager from "../systems/StageManager.js";
@@ -96,7 +98,16 @@ export default class GameScene extends Phaser.Scene {
   }
 
   spawnEnemy(data) {
-    const enemy = this.enemies.create(data.x, data.y);
-    enemy.type = data.type;
+    let enemy;
+
+    if (data.type === "turret") {
+      enemy = new TurretEnemy(this, data.x, data.y);
+    } else if (data.type === "coil") {
+      enemy = new CoilEnemy(this, data.x, data.y);
+    } else {
+      enemy = new Enemy(this, data.x, data.y); //this won't be used, just checking to see if super class works
+    }
+
+    this.enemies.add(enemy);
   }
 }
