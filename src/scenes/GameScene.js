@@ -90,6 +90,8 @@ export default class GameScene extends Phaser.Scene {
       null,
       this,
     );
+
+    this.delayMovementAfterShooting();
   }
 
   update() {
@@ -124,6 +126,12 @@ export default class GameScene extends Phaser.Scene {
     const enemy = new EnemyClass(this, pos.x, pos.y);
 
     this.enemies.add(enemy);
+  }
+
+  delayMovementAfterShooting() {
+    this.events.on("playerShoot", () => {
+      this.player.movement.blockMovement();
+    });
   }
 
   drawGrid() {
