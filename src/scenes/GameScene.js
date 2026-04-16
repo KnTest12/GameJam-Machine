@@ -26,8 +26,12 @@ export default class GameScene extends Phaser.Scene {
     this.stage = new StageManager(this);
     this.grid = new GridManager(this);
 
-    this.physics.world.setBounds(0, 0, 800, 600);
-    this.add.image(400, 300, "placeholderbackground");
+    this.physics.world.setBounds(0, 0, this.grid.width, this.grid.height);
+    this.add.image(
+      this.grid.width / 2,
+      this.grid.height / 2,
+      "placeholderbackground",
+    );
     this.drawGrid();
 
     //placeholders texture

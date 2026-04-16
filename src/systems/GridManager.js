@@ -10,12 +10,16 @@ export default class GridManager {
     this.cols = 8;
     this.rows = 4;
 
-    this.tileWidth = 100;
-    this.tileHeight = 60;
+    this.tileWidth = 140;
+    this.tileHeight = 100;
     this.spacing = 10;
+    this.padding = 40;
 
-    this.offsetX = (800 - this.cols * this.tileWidth) / 2;
-    this.offsetY = (600 - this.rows * this.tileHeight) / 2;
+    this.width = this.cols * this.tileWidth + this.padding * 2;
+    this.height = this.rows * this.tileHeight + this.padding * 2;
+
+    this.offsetX = this.padding;
+    this.offsetY = this.padding;
   }
 
   isWalkable(row, col) {
