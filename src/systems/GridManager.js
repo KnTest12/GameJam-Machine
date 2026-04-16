@@ -11,7 +11,7 @@ export default class GridManager {
     this.rows = 4;
 
     this.tileWidth = 100;
-    this.tileHeight = 80;
+    this.tileHeight = 60;
     this.spacing = 10;
 
     this.offsetX = (800 - this.cols * this.tileWidth) / 2;

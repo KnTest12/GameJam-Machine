@@ -148,6 +148,13 @@ export default class GameScene extends Phaser.Scene {
           this.grid.tileWidth - this.grid.spacing,
           this.grid.tileHeight - this.grid.spacing,
         );
+        graphics.lineStyle(4, isBlue ? 0x3399ff : 0xff6666, 1);
+        graphics.lineBetween(
+          x,
+          y,
+          x + this.grid.tileWidth - this.grid.spacing,
+          y,
+        );
       }
     }
   }
