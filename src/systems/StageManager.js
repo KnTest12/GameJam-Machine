@@ -7,15 +7,15 @@ export default class StageManager {
 
     //temp
     this.stages = [
-      [{ type: "turret", x: 600, y: 300 }],
+      [{ type: "default", x: 600, y: 300 }],
       [
-        { type: "turret", x: 600, y: 200 },
+        { type: "coil", x: 600, y: 200 },
         { type: "turret", x: 600, y: 400 },
       ],
       [
-        { type: "turret", x: 500, y: 150 },
+        { type: "default", x: 500, y: 150 },
         { type: "turret", x: 600, y: 300 },
-        { type: "turret", x: 500, y: 450 },
+        { type: "coil", x: 500, y: 450 },
       ],
     ];
   }

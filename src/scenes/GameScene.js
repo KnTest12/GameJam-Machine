@@ -1,8 +1,7 @@
 import * as Phaser from "phaser";
 import { SCENES } from "../constants/scenes.js";
 import Player from "../objects/Player.js";
-import Enemy from "../objects/Enemy.js";
-import Bullet from "../objects/Bullet.js";
+import { Enemy, EnemyMap } from "../objects/enemies";
 import AudioManager from "../systems/AudioManager.js";
 import StageManager from "../systems/StageManager.js";
 
@@ -33,6 +32,16 @@ export default class GameScene extends Phaser.Scene {
     enemyGfx.fillStyle(0xff0000);
     enemyGfx.fillRect(0, 0, 30, 30);
     enemyGfx.generateTexture("enemy", 30, 30);
+
+    enemyGfx.clear();
+    enemyGfx.fillStyle(0x0000ff);
+    enemyGfx.fillRect(0, 0, 30, 30);
+    enemyGfx.generateTexture("turret", 30, 30);
+
+    enemyGfx.clear();
+    enemyGfx.fillStyle(0xffffff);
+    enemyGfx.fillRect(0, 0, 30, 30);
+    enemyGfx.generateTexture("coil", 30, 30);
 
     const bulletGfx = this.make.graphics({ x: 0, y: 0, add: false });
     bulletGfx.fillStyle(0xffff00);
@@ -96,7 +105,9 @@ export default class GameScene extends Phaser.Scene {
   }
 
   spawnEnemy(data) {
-    const enemy = this.enemies.create(data.x, data.y);
-    enemy.type = data.type;
+    const EnemyClass = EnemyMap[data.type] || EnemyMap.default;
+    const enemy = new EnemyClass(this, data.x, data.y);
+
+    this.enemies.add(enemy);
   }
 }

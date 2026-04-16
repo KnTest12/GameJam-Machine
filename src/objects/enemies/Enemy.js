@@ -1,13 +1,13 @@
 import * as Phaser from "phaser";
-import HealthComponent from "../components/HealthComponent.js";
+import HealthComponent from "../../components/HealthComponent.js";
 
 export default class Enemy extends Phaser.Physics.Arcade.Sprite {
-  constructor(scene, x, y) {
-    super(scene, x, y, "enemy");
+  constructor(scene, x, y, texture = "enemy", hp = 3) {
+    super(scene, x, y, texture);
     scene.add.existing(this);
     scene.physics.add.existing(this);
 
-    this.health = new HealthComponent(3);
+    this.health = new HealthComponent(hp);
     this.type = "default";
 
     this.body.setSize(30, 30);
