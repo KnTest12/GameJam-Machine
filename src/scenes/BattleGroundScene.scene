@@ -1,0 +1,30 @@
+{
+    "id": "d799970d-e1f8-49bd-ac58-5901d361df19",
+    "sceneType": "SCENE",
+    "settings": {
+        "preloadPackFiles": [],
+        "createMethodName": "editorCreate",
+        "sceneKey": "BattleGroundScene"
+    },
+    "displayList": [
+        {
+            "type": "Sprite",
+            "id": "bb9ce487-9e6f-4c5f-8ce9-ebd5ea81479b",
+            "label": "sprite_1",
+            "texture": {
+                "key": "Soldier-Idle",
+                "frame": 0
+            },
+            "x": 165,
+            "y": 423,
+            "animationKey": "sol_animationSoldier-Idle"
+        }
+    ],
+    "plainObjects": [],
+    "meta": {
+        "app": "Phaser Editor - Scene Editor",
+        "url": "https://phaser.io/editor",
+        "contentType": "phasereditor2d.core.scene.SceneContentType",
+        "version": 5
+    }
+}
