@@ -35,7 +35,7 @@ export default class MovementComponent {
   }
 
   update() {
-    if (this.locked) return;
+    if (this.locked || this.scene.gameState !== "playing") return;
 
     if (Phaser.Input.Keyboard.JustDown(this.cursors.left)) {
       this.tryMove(-1, 0);
