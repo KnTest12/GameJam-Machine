@@ -6,6 +6,7 @@ export default class MovementComponent {
     this.sprite = sprite;
     this.grid = grid;
     this.gridPos = { col: startCol, row: startRow };
+    this.shootCooldown = false;
     this.cursors = scene.input.keyboard.createCursorKeys();
   }
 
@@ -22,8 +23,16 @@ export default class MovementComponent {
     this.sprite.setPosition(pos.x, pos.y);
   }
 
+  blockMovement(duration = 450) {
+    this.shootCooldown = true;
+    this.scene.time.delayedCall(duration, () => {
+      this.shootCooldown = false;
+    });
+  }
+
   update() {
     if (this.scene.gameState !== "playing") return;
+    if (this.shootCooldown) return;
 
     if (Phaser.Input.Keyboard.JustDown(this.cursors.left)) {
       this.tryMove(-1, 0);

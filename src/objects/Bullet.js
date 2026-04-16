@@ -16,7 +16,7 @@ export default class Bullet extends Phaser.Physics.Arcade.Sprite {
   }
 
   update() {
-    if (this.x > 900 || this.x < -100) {
+    if (this.x > this.scene.scale.width + 50 || this.x < -100) {
       this.setActive(false);
       this.setVisible(false);
       this.body.enable = false;
