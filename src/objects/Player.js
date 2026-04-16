@@ -5,13 +5,13 @@ import ShootComponent from "../components/ShootComponent";
 import Bullet from "./Bullet.js";
 
 export default class Player extends Phaser.Physics.Arcade.Sprite {
-  constructor(scene, x, y) {
+  constructor(scene, x, y, grid) {
     super(scene, x, y, "player");
     scene.add.existing(this);
     scene.physics.add.existing(this);
 
     this.health = new HealthComponent(3);
-    this.movement = new MovementComponent(scene, this);
+    this.movement = new MovementComponent(scene, this, grid);
     this.shooter = new ShootComponent(scene, this);
 
     this.bullets = scene.physics.add.group({
