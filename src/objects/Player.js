@@ -5,13 +5,22 @@ import ShootComponent from "../components/ShootComponent";
 import Bullet from "./Bullet.js";
 
 export default class Player extends Phaser.Physics.Arcade.Sprite {
-  constructor(scene, x, y) {
-    super(scene, x, y, "player");
+  constructor(scene, grid, startCol = 0, startRow = 1) {
+    const pos = grid.gridToWorld(startCol, startRow);
+    super(scene, pos.x, pos.y, "player");
     scene.add.existing(this);
     scene.physics.add.existing(this);
 
     this.health = new HealthComponent(3);
-    this.movement = new MovementComponent(scene, this);
+    this.movement = new MovementComponent(
+      scene,
+      this,
+      grid,
+      startCol,
+      startRow,
+    );
+    this.startCol = startCol;
+    this.startRow = startRow;
     this.shooter = new ShootComponent(scene, this);
 
     this.bullets = scene.physics.add.group({
@@ -21,7 +30,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     });
 
     this.body.setSize(30, 30);
-    this.setCollideWorldBounds(true);
   }
 
   takeDamage(amount) {
@@ -35,9 +43,10 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     });
   }
 
-  resetPosition(x, y) {
-    this.setPosition(x, y);
-    this.body.setVelocity(0, 0);
+  resetPosition() {
+    const pos = this.movement.grid.gridToWorld(this.startCol, this.startRow);
+    this.setPosition(pos.x, pos.y);
+    this.movement.gridPos = { col: this.startCol, row: this.startRow };
   }
 
   update() {

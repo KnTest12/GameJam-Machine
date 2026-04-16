@@ -1,21 +1,38 @@
+import * as Phaser from "phaser";
+
 export default class MovementComponent {
-  constructor(scene, sprite, speed = 200) {
+  constructor(scene, sprite, grid, startCol = 0, startRow = 1) {
+    this.scene = scene;
     this.sprite = sprite;
-    this.speed = speed;
+    this.grid = grid;
+    this.gridPos = { col: startCol, row: startRow };
     this.cursors = scene.input.keyboard.createCursorKeys();
   }
 
-  update() {
-    this.sprite.body.setVelocity(0);
+  tryMove(dx, dy) {
+    const nextCol = this.gridPos.col + dx;
+    const nextRow = this.gridPos.row + dy;
 
-    if (this.cursors.left.isDown) {
-      this.sprite.body.setVelocityX(-this.speed);
-    } else if (this.cursors.right.isDown) {
-      this.sprite.body.setVelocityX(this.speed);
-    } else if (this.cursors.up.isDown) {
-      this.sprite.body.setVelocityY(-this.speed);
-    } else if (this.cursors.down.isDown) {
-      this.sprite.body.setVelocityY(this.speed);
+    if (!this.grid.isValid(nextCol, nextRow)) return;
+
+    this.gridPos.col = nextCol;
+    this.gridPos.row = nextRow;
+
+    const pos = this.grid.gridToWorld(nextCol, nextRow);
+    this.sprite.setPosition(pos.x, pos.y);
+  }
+
+  update() {
+    if (this.scene.gameState !== "playing") return;
+
+    if (Phaser.Input.Keyboard.JustDown(this.cursors.left)) {
+      this.tryMove(-1, 0);
+    } else if (Phaser.Input.Keyboard.JustDown(this.cursors.right)) {
+      this.tryMove(1, 0);
+    } else if (Phaser.Input.Keyboard.JustDown(this.cursors.up)) {
+      this.tryMove(0, -1);
+    } else if (Phaser.Input.Keyboard.JustDown(this.cursors.down)) {
+      this.tryMove(0, 1);
     }
   }
 }
