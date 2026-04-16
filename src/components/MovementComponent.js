@@ -1,20 +1,15 @@
 import * as Phaser from "phaser";
 
 export default class MovementComponent {
-  constructor(scene, sprite, grid) {
+  constructor(scene, sprite, grid, startCol = 0, startRow = 1) {
     this.scene = scene;
     this.sprite = sprite;
     this.grid = grid;
-
+    this.gridPos = { col: startCol, row: startRow };
     this.cursors = scene.input.keyboard.createCursorKeys();
-
-    this.gridPos = { col: 0, row: 0 };
-    this.locked = false;
   }
 
   tryMove(dx, dy) {
-    if (this.locked) return;
-
     const nextCol = this.gridPos.col + dx;
     const nextRow = this.gridPos.row + dy;
 
@@ -27,28 +22,17 @@ export default class MovementComponent {
     this.sprite.setPosition(pos.x, pos.y);
   }
 
-  lock() {
-    this.locked = true;
-    this.scene.time.delayedCall(150, () => {
-      this.locked = false;
-    });
-  }
-
   update() {
-    if (this.locked || this.scene.gameState !== "playing") return;
+    if (this.scene.gameState !== "playing") return;
 
     if (Phaser.Input.Keyboard.JustDown(this.cursors.left)) {
       this.tryMove(-1, 0);
-      this.lock();
     } else if (Phaser.Input.Keyboard.JustDown(this.cursors.right)) {
       this.tryMove(1, 0);
-      this.lock();
     } else if (Phaser.Input.Keyboard.JustDown(this.cursors.up)) {
       this.tryMove(0, -1);
-      this.lock();
     } else if (Phaser.Input.Keyboard.JustDown(this.cursors.down)) {
       this.tryMove(0, 1);
-      this.lock();
     }
   }
 }

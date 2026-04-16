@@ -57,8 +57,9 @@ export default class GameScene extends Phaser.Scene {
     bulletGfx.generateTexture("bullet", 10, 6);
 
     //spawn objects
-    const start = this.grid.gridToWorld(0, 0);
-    this.player = new Player(this, start.x, start.y, this.grid);
+    const startCol = 0;
+    const startRow = 1;
+    this.player = new Player(this, this.grid, startCol, startRow);
     this.enemies = this.physics.add.group({
       classType: Enemy,
     });
@@ -106,7 +107,7 @@ export default class GameScene extends Phaser.Scene {
       text.destroy();
 
       this.stage.nextStage();
-      this.player.resetPosition(200, 300);
+      this.player.resetPosition();
       this.player.clearBullets();
       this.physics.resume();
       this.gameState = "playing";
