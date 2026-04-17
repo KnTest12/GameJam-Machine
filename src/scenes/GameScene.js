@@ -92,6 +92,7 @@ export default class GameScene extends Phaser.Scene {
     );
 
     this.delayMovementAfterShooting();
+    this.playerDeathRetry();
   }
 
   update() {
@@ -137,6 +138,17 @@ export default class GameScene extends Phaser.Scene {
   delayMovementAfterShooting() {
     this.events.on("playerShoot", () => {
       this.player.movement.blockMovement();
+    });
+  }
+
+  //temp
+  playerDeathRetry() {
+    this.events.on("playerDeath", () => {
+      this.gameState = "dead";
+      this.physics.pause();
+      this.time.delayedCall(2500, () => {
+        this.scene.start(SCENES.GAME_OVER);
+      });
     });
   }
 
