@@ -146,7 +146,7 @@ export default class GameScene extends Phaser.Scene {
     this.events.on("playerDeath", () => {
       this.gameState = "dead";
       this.physics.pause();
-      this.time.delayedCall(5500, () => {
+      this.time.delayedCall(2500, () => {
         this.scene.start(SCENES.GAME_OVER);
       });
     });

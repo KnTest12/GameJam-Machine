@@ -24,6 +24,7 @@ export default class AttackComponent {
 
   beginAttack() {
     if (!this.enemy.active) return;
+    if (this.scene.gameState !== "playing") return;
     this.isAttacking = true;
 
     this.telegraphedTiles = this.getTargetTiles();
@@ -36,6 +37,7 @@ export default class AttackComponent {
 
   resolveAttack() {
     if (!this.enemy.active) return;
+    if (this.scene.gameState !== "playing") return;
 
     const playerPos = this.scene.player.movement.gridPos;
 
