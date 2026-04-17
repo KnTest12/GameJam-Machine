@@ -1,5 +1,6 @@
 export default class GridManager {
-  constructor() {
+  constructor(scene) {
+    this.scene = scene;
     this.map = [
       [0, 0, 0, 0, 1, 1, 1, 1],
       [0, 0, 0, 0, 1, 1, 1, 1],
@@ -20,6 +21,8 @@ export default class GridManager {
 
     this.offsetX = this.padding;
     this.offsetY = this.padding;
+
+    this.highlights = {};
   }
 
   isWalkable(row, col) {
@@ -44,5 +47,36 @@ export default class GridManager {
       x: this.offsetX + col * this.tileWidth + this.tileWidth / 2,
       y: this.offsetY + row * this.tileHeight + this.tileHeight / 2,
     };
+  }
+
+  highlightTiles(tiles, color = 0xff9000, id = "default") {
+    tiles.forEach(({ col, row }) => {
+      if (this.map[row][col] !== 0) return;
+      const key = `${id},${col},${row}`;
+      if (this.highlights[key]) return;
+
+      const x = this.offsetX + col * this.tileWidth + this.spacing / 2;
+      const y = this.offsetY + row * this.tileHeight + this.spacing / 2;
+      const w = this.tileWidth - this.spacing;
+      const h = this.tileHeight - this.spacing;
+
+      const gfx = this.scene.add.graphics();
+      gfx.fillStyle(color, 0.4);
+      gfx.fillRect(x, y, w, h);
+      gfx.lineStyle(3, color, 1);
+      gfx.strokeRect(x, y, w, h);
+
+      this.highlights[key] = gfx;
+    });
+  }
+
+  clearHighlights(tiles, id = "default") {
+    tiles.forEach(({ col, row }) => {
+      const key = `${id},${col},${row}`;
+      if (this.highlights[key]) {
+        this.highlights[key].destroy();
+        delete this.highlights[key];
+      }
+    });
   }
 }

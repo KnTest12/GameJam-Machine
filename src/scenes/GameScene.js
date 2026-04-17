@@ -126,6 +126,12 @@ export default class GameScene extends Phaser.Scene {
     const enemy = new EnemyClass(this, pos.x, pos.y);
 
     this.enemies.add(enemy);
+
+    const offset = data.offset ?? 0;
+
+    this.time.delayedCall(offset, () => {
+      enemy.attack.startCooldown();
+    });
   }
 
   delayMovementAfterShooting() {
