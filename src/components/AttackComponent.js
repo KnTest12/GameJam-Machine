@@ -1,3 +1,5 @@
+import * as Phaser from "phaser";
+
 export default class AttackComponent {
   constructor(scene, enemy, config = {}) {
     this.scene = scene;
@@ -8,6 +10,8 @@ export default class AttackComponent {
     this.telegraphedTiles = [];
     this.isAttacking = false;
     this.id = Math.random().toString(36).slice(2);
+    this.initialOffset = Phaser.Math.Between(0, this.cooldown);
+    this.hasStarted = false;
 
     this.startCooldown();
   }
@@ -17,7 +21,10 @@ export default class AttackComponent {
   }
 
   startCooldown() {
-    this.scene.time.delayedCall(this.cooldown, () => {
+    const delay = this.hasStarted ? this.cooldown : this.initialOffset;
+    this.hasStarted = true;
+
+    this.scene.time.delayedCall(delay, () => {
       this.beginAttack();
     });
   }
