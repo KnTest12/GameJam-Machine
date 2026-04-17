@@ -10,10 +10,6 @@ export default class AttackComponent {
     this.telegraphedTiles = [];
     this.isAttacking = false;
     this.id = Math.random().toString(36).slice(2);
-    this.initialOffset = Phaser.Math.Between(0, this.cooldown);
-    this.hasStarted = false;
-
-    this.startCooldown();
   }
 
   getTargetTiles() {
@@ -21,10 +17,7 @@ export default class AttackComponent {
   }
 
   startCooldown() {
-    const delay = this.hasStarted ? this.cooldown : this.initialOffset;
-    this.hasStarted = true;
-
-    this.scene.time.delayedCall(delay, () => {
+    this.scene.time.delayedCall(this.cooldown, () => {
       this.beginAttack();
     });
   }

@@ -123,7 +123,7 @@ export default class GameScene extends Phaser.Scene {
   spawnEnemy(data) {
     const EnemyClass = EnemyMap[data.type] || EnemyMap.default;
     const pos = this.grid.gridToWorld(data.col, data.row);
-    const enemy = new EnemyClass(this, pos.x, pos.y);
+    const enemy = new EnemyClass(this, pos.x, pos.y, data);
 
     this.enemies.add(enemy);
   }
