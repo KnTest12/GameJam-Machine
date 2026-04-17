@@ -71,7 +71,6 @@ export default class GridManager {
   }
 
   clearHighlights(tiles, id = "default") {
-    console.log("clearHighlights called", tiles, this.highlights);
     tiles.forEach(({ col, row }) => {
       const key = `${id},${col},${row}`;
       if (this.highlights[key]) {
