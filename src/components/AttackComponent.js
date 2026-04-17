@@ -7,6 +7,7 @@ export default class AttackComponent {
     this.damage = config.damage || 1;
     this.telegraphedTiles = [];
     this.isAttacking = false;
+    this.id = Math.random().toString(36).slice(2);
 
     this.startCooldown();
   }
@@ -26,7 +27,7 @@ export default class AttackComponent {
     this.isAttacking = true;
 
     this.telegraphedTiles = this.getTargetTiles();
-    this.scene.grid.highlightTiles(this.telegraphedTiles, 0xff9900);
+    this.scene.grid.highlightTiles(this.telegraphedTiles, 0xff9900, this.id);
 
     this.scene.time.delayedCall(this.telegraphDuration, () => {
       this.resolveAttack();
@@ -46,7 +47,7 @@ export default class AttackComponent {
       this.scene.player.takeDamage(this.damage);
     }
 
-    this.scene.grid.clearHighlights(this.telegraphedTiles);
+    this.scene.grid.clearHighlights(this.telegraphedTiles, this.id);
     this.telegraphedTiles = [];
     this.isAttacking = false;
     this.startCooldown();

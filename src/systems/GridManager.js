@@ -49,10 +49,10 @@ export default class GridManager {
     };
   }
 
-  highlightTiles(tiles, color = 0xff9000) {
+  highlightTiles(tiles, color = 0xff9000, id = "default") {
     tiles.forEach(({ col, row }) => {
       if (this.map[row][col] !== 0) return;
-      const key = `${col},${row}`;
+      const key = `${id},${col},${row}`;
       if (this.highlights[key]) return;
 
       const x = this.offsetX + col * this.tileWidth + this.spacing / 2;
@@ -70,10 +70,10 @@ export default class GridManager {
     });
   }
 
-  clearHighlights(tiles) {
+  clearHighlights(tiles, id = "default") {
     console.log("clearHighlights called", tiles, this.highlights);
     tiles.forEach(({ col, row }) => {
-      const key = `${col},${row}`;
+      const key = `${id},${col},${row}`;
       if (this.highlights[key]) {
         this.highlights[key].destroy();
         delete this.highlights[key];
