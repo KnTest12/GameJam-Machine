@@ -3,6 +3,7 @@ import * as Phaser from "phaser";
 import MenuScene from "./scenes/MenuScene.js";
 import GameScene from "./scenes/GameScene.js";
 import GameOverScene from "./scenes/GameOverScene.js";
+import EndScene from "./scenes/EndScene.js";
 
 import GridManager from "./systems/GridManager.js";
 
@@ -23,7 +24,7 @@ const config = {
       debug: false,
     },
   },
-  scene: [MenuScene, GameScene, GameOverScene],
+  scene: [MenuScene, GameScene, GameOverScene, EndScene],
 };
 
 new Phaser.Game(config);

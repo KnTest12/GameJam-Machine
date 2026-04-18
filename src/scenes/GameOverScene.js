@@ -12,7 +12,7 @@ export default class GameOverScene extends Phaser.Scene {
     this.add.text(
       150,
       250,
-      "PROCESS TERMINATED. Press R to reboot from last checkpoint.",
+      "PROCESS TERMINATED. Press R to reboot from last restore point.",
       {
         fontSize: "32px",
       },
