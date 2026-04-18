@@ -1,9 +1,9 @@
 import { SCENES } from "../constants/scenes.js";
 
 export default class StageManager {
-  constructor(scene) {
+  constructor(scene, startStage = 0) {
     this.scene = scene;
-    this.currentStage = 0;
+    this.currentStage = startStage;
 
     //temp
     this.stages = [
