@@ -22,8 +22,10 @@ export default class GameScene extends Phaser.Scene {
   }
 
   create() {
+    const startStage = this.scene.settings.data?.stage || 0;
+
     this.audio = new AudioManager(this);
-    this.stage = new StageManager(this);
+    this.stage = new StageManager(this, startStage);
     this.grid = new GridManager(this);
 
     this.physics.world.setBounds(0, 0, this.grid.width, this.grid.height);
@@ -104,7 +106,7 @@ export default class GameScene extends Phaser.Scene {
     this.physics.pause();
 
     const text = this.add
-      .text(400, 300, "STAGE CLEAR", {
+      .text(400, 300, "DATA ABSORBED", {
         fontSize: "32px",
         color: "#ffffff",
       })
@@ -147,7 +149,7 @@ export default class GameScene extends Phaser.Scene {
       this.gameState = "dead";
       this.physics.pause();
       this.time.delayedCall(2500, () => {
-        this.scene.start(SCENES.GAME_OVER);
+        this.scene.start(SCENES.GAME_OVER, { stage: this.stage.currentStage });
       });
     });
   }

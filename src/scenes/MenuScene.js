@@ -15,7 +15,7 @@ export default class MenuScene extends Phaser.Scene {
       .setOrigin(0.5);
 
     this.add
-      .text(400, 340, "Press SPACE to Start", {
+      .text(400, 340, "INITIALIZING... Press SPACE to begin purge sequence.", {
         fontSize: "24px",
         fill: "#aaaaaa",
       })

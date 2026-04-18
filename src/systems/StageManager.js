@@ -1,9 +1,9 @@
 import { SCENES } from "../constants/scenes.js";
 
 export default class StageManager {
-  constructor(scene) {
+  constructor(scene, startStage = 0) {
     this.scene = scene;
-    this.currentStage = 0;
+    this.currentStage = startStage;
 
     //temp
     this.stages = [
@@ -38,7 +38,7 @@ export default class StageManager {
     this.currentStage++;
 
     if (this.currentStage >= this.stages.length) {
-      this.scene.scene.start(SCENES.GAME_OVER);
+      this.scene.scene.start(SCENES.END);
       return;
     }
 

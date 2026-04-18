@@ -7,12 +7,19 @@ export default class GameOverScene extends Phaser.Scene {
   }
 
   create() {
-    this.add.text(150, 250, "Game Over. Press R to Retry", {
-      fontSize: "32px",
-    });
+    const stage = this.scene.settings.data?.stage || 0;
+
+    this.add.text(
+      150,
+      250,
+      "PROCESS TERMINATED. Press R to reboot from last restore point.",
+      {
+        fontSize: "32px",
+      },
+    );
 
     this.input.keyboard.once("keydown-R", () => {
-      this.scene.start(SCENES.GAME);
+      this.scene.start(SCENES.GAME, { stage });
     });
   }
 }
