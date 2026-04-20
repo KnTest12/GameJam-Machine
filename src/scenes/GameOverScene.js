@@ -8,15 +8,20 @@ export default class GameOverScene extends Phaser.Scene {
 
   create() {
     const stage = this.scene.settings.data?.stage || 0;
+    const { width, height } = this.scale;
 
-    this.add.text(
-      150,
-      250,
-      "PROCESS TERMINATED. Press R to reboot from last restore point.",
-      {
-        fontSize: "32px",
-      },
-    );
+    this.add
+      .text(
+        width / 2,
+        height / 2,
+        "PROCESS TERMINATED. Press R to reboot from last restore point.",
+        {
+          fontSize: "32px",
+          align: "center",
+          wordWrap: { width: width - 160 },
+        },
+      )
+      .setOrigin(0.5);
 
     this.input.keyboard.once("keydown-R", () => {
       this.scene.start(SCENES.GAME, { stage });
