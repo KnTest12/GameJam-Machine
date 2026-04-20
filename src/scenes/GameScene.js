@@ -5,6 +5,7 @@ import { Enemy, EnemyMap } from "../objects/enemies";
 import AudioManager from "../systems/AudioManager.js";
 import StageManager from "../systems/StageManager.js";
 import GridManager from "../systems/GridManager.js";
+import UIManager from "../systems/UImanager.js";
 
 export default class GameScene extends Phaser.Scene {
   constructor() {
@@ -60,12 +61,12 @@ export default class GameScene extends Phaser.Scene {
     bulletGfx.generateTexture("bullet", 10, 6);
 
     //spawn objects
-    const startCol = 0;
-    const startRow = 1;
-    this.player = new Player(this, this.grid, startCol, startRow);
+    this.player = new Player(this, this.grid, 0, 1);
     this.enemies = this.physics.add.group({
       classType: Enemy,
     });
+
+    this.ui = new UIManager(this, this.player, this.stage);
 
     //stage logic
     this.gameState = "playing";
@@ -96,6 +97,7 @@ export default class GameScene extends Phaser.Scene {
 
   update() {
     this.player.update();
+    this.ui.update();
   }
 
   onStageClear() {
