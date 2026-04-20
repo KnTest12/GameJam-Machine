@@ -19,8 +19,13 @@ export default class GridManager {
     this.width = this.cols * this.tileWidth + this.padding * 2;
     this.height = this.rows * this.tileHeight + this.padding * 2;
 
-    this.offsetX = this.padding;
-    this.offsetY = this.padding;
+    if (scene) {
+      this.offsetX = Math.floor((scene.scale.width - this.width) / 2) + this.padding;
+      this.offsetY = Math.floor((scene.scale.height - this.height) / 2) + this.padding;
+    } else {
+      this.offsetX = this.padding;
+      this.offsetY = this.padding;
+    }
 
     this.highlights = {};
   }

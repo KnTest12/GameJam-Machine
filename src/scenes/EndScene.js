@@ -7,12 +7,16 @@ export default class EndScene extends Phaser.Scene {
   }
 
   create() {
-    this.add.text(150, 250, "ASSIMILATION COMPLETE.", {
-      fontSize: "32px",
-    });
+    const { width, height } = this.scale;
 
     this.add
-      .text(400, 310, "YOU ARE THE SYSTEM NOW.", {
+      .text(width / 2, height / 2 - 40, "ASSIMILATION COMPLETE.", {
+        fontSize: "32px",
+      })
+      .setOrigin(0.5);
+
+    this.add
+      .text(width / 2, height / 2 + 20, "YOU ARE THE SYSTEM NOW.", {
         fontSize: "18px",
         color: "#aaaaaa",
       })

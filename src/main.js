@@ -5,14 +5,11 @@ import GameScene from "./scenes/GameScene.js";
 import GameOverScene from "./scenes/GameOverScene.js";
 import EndScene from "./scenes/EndScene.js";
 
-import GridManager from "./systems/GridManager.js";
-
-const grid = new GridManager();
-
 const config = {
   type: Phaser.AUTO,
-  width: grid.width,
-  height: grid.height,
+  parent: "game",
+  width: 1280,
+  height: 720,
   scale: {
     mode: Phaser.Scale.FIT,
     autoCenter: Phaser.Scale.CENTER_BOTH,

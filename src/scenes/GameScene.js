@@ -23,17 +23,14 @@ export default class GameScene extends Phaser.Scene {
 
   create() {
     const startStage = this.scene.settings.data?.stage || 0;
+    const { width, height } = this.scale;
 
     this.audio = new AudioManager(this);
     this.stage = new StageManager(this, startStage);
     this.grid = new GridManager(this);
 
-    this.physics.world.setBounds(0, 0, this.grid.width, this.grid.height);
-    this.add.image(
-      this.grid.width / 2,
-      this.grid.height / 2,
-      "placeholderbackground",
-    );
+    this.physics.world.setBounds(0, 0, width, height);
+    this.add.image(width / 2, height / 2, "placeholderbackground");
     this.drawGrid();
 
     //placeholders texture
@@ -104,9 +101,10 @@ export default class GameScene extends Phaser.Scene {
   onStageClear() {
     this.gameState = "clearing";
     this.physics.pause();
+    const { width, height } = this.scale;
 
     const text = this.add
-      .text(400, 300, "DATA ABSORBED", {
+      .text(width / 2, height / 2, "DATA ABSORBED", {
         fontSize: "32px",
         color: "#ffffff",
       })
