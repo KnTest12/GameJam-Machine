@@ -5,8 +5,8 @@ export default class HealthComponent {
   }
 
   takeDamage(amount) {
-    if (amount >= this.maxHp) amount = this.maxHp;
     this.hp -= amount;
+    if (this.hp < 0) this.hp = 0;
     return this.isDead();
   }
 

@@ -3,11 +3,12 @@ import AttackComponent from "../../components/AttackComponent.js";
 
 export default class ZoneEnemy extends Enemy {
   constructor(scene, x, y) {
-    super(scene, x, y, "zone", 10);
+    super(scene, x, y, "zone", 1);
     this.type = "zone";
     this.attack = new AttackComponent(scene, this, {
-      cooldown: 100,
+      cooldown: 2000,
       telegraphDuration: 5000,
+      activeDuration: 4000,
       damage: 1,
       mode: "persistent",
     });

@@ -104,6 +104,19 @@ export default class AttackComponent {
       this.scene.grid.clearHighlights(tiles, this.id);
       this.scene.grid.activateTiles(tiles, 0xff6600, this.id);
 
+      this.standingTimer = this.scene.time.addEvent({
+        delay: 500,
+        callback: () => {
+          if (!this.enemy.active) return;
+          const playerPos = this.scene.player.movement.gridPos;
+          const hit = tiles.some(
+            (tile) => tile.col === playerPos.col && tile.row === playerPos.row,
+          );
+          if (hit) this.scene.player.takeDamage(this.damage);
+        },
+        repeat: Math.floor(this.activeDuration / 500) - 1,
+      });
+
       this.scene.time.delayedCall(this.activeDuration, () => {
         if (!this.enemy.active) return;
         this.scene.grid.deactivateTiles(tiles, this.id);
