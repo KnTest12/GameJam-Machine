@@ -20,14 +20,17 @@ export default class GridManager {
     this.height = this.rows * this.tileHeight + this.padding * 2;
 
     if (scene) {
-      this.offsetX = Math.floor((scene.scale.width - this.width) / 2) + this.padding;
-      this.offsetY = Math.floor((scene.scale.height - this.height) / 2) + this.padding;
+      this.offsetX =
+        Math.floor((scene.scale.width - this.width) / 2) + this.padding;
+      this.offsetY =
+        Math.floor((scene.scale.height - this.height) / 2) + this.padding;
     } else {
       this.offsetX = this.padding;
       this.offsetY = this.padding;
     }
 
     this.highlights = {};
+    this.activeTiles = [];
   }
 
   isWalkable(row, col) {
@@ -75,6 +78,27 @@ export default class GridManager {
     });
   }
 
+  activeTiles(tiles, color = 0xff6600, id = "default") {
+    tiles.forEach(({ col, row }) => {
+      if (this.map[row][col] !== 0) return;
+      const key = `${id},${col},${row}`;
+      if (this.activeTiles[key]) return;
+
+      const x = this.offsetX + col * this.tileWidth + this.spacing / 2;
+      const y = this.offsetY + row * this.tileHeight + this.spacing / 2;
+      const w = this.tileWidth - this.spacing;
+      const h = this.tileHeight - this.spacing;
+
+      const gfx = this.scene.add.graphics();
+      gfx.fillStyle(color, 0.5);
+      gfx.fillRect(x, y, w, h);
+      gfx.lineStyle(3, color, 1);
+      gfx.strokeRect(x, y, w, h);
+
+      this.activeTiles[key] = gfx;
+    });
+  }
+
   clearHighlights(tiles, id = "default") {
     tiles.forEach(({ col, row }) => {
       const key = `${id},${col},${row}`;
@@ -83,5 +107,28 @@ export default class GridManager {
         delete this.highlights[key];
       }
     });
+  }
+
+  deactivateTiles(tiles, id = "default") {
+    tiles.forEach(({ col, row }) => {
+      const key = `${id},${col},${row}`;
+      if (this.activeTiles[key]) {
+        this.activeTiles[key].destroy();
+        delete this.activeTiles[key];
+      }
+    });
+  }
+
+  isTileDangerous(col, row) {
+    return Object.keys(this.activeTiles).some((key) =>
+      key.endsWith(`,${col},${row}`),
+    );
+  }
+
+  clearAllActiveTiles() {
+    Object.keys(this.activeTiles).forEach((key) => {
+      this.activeTiles[key].destroy();
+    });
+    this.activeTiles = {};
   }
 }
