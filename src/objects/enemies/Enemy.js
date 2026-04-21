@@ -9,6 +9,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
 
     this.health = new HealthComponent(hp);
     this.type = "default";
+    this.gridPos = { col: 0, row: 0 };
 
     this.body.setSize(30, 30);
     this.setImmovable(true);

@@ -7,14 +7,14 @@ export default class StageManager {
 
     //temp
     this.stages = [
-      [{ type: "bomb", col: 5, row: 1 }],
+      [{ type: "mobile", col: 5, row: 1 }],
       [
         { type: "coil", col: 5, row: 0 },
         { type: "turret", col: 5, row: 2 },
       ],
       [
         { type: "turret", col: 4, row: 0, offset: 0 },
-        { type: "coil", col: 5, row: 1, offset: 0 },
+        { type: "bomb", col: 5, row: 1, offset: 0 },
         { type: "coil", col: 5, row: 2, offset: 600 },
         { type: "turret", col: 4, row: 3, offset: 400 },
       ],

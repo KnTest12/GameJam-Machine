@@ -60,6 +60,11 @@ export default class GameScene extends Phaser.Scene {
     enemyGfx.fillRect(0, 0, 30, 30);
     enemyGfx.generateTexture("bomb", 30, 30);
 
+    enemyGfx.clear();
+    enemyGfx.fillStyle(0x9900ff);
+    enemyGfx.fillRect(0, 0, 30, 30);
+    enemyGfx.generateTexture("mobile", 30, 30);
+
     const bulletGfx = this.make.graphics({ x: 0, y: 0, add: false });
     bulletGfx.fillStyle(0xffff00);
     bulletGfx.fillRect(0, 0, 10, 6);
@@ -133,6 +138,7 @@ export default class GameScene extends Phaser.Scene {
     const EnemyClass = EnemyMap[data.type] || EnemyMap.default;
     const pos = this.grid.gridToWorld(data.col, data.row);
     const enemy = new EnemyClass(this, pos.x, pos.y);
+    enemy.gridPos = { col: data.col, row: data.row };
 
     this.enemies.add(enemy);
 

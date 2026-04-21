@@ -10,6 +10,7 @@ export default class AttackComponent {
     this.telegraphedTiles = [];
     this.isAttacking = false;
     this.id = Math.random().toString(36).slice(2);
+    this.mode = config.mode || "default";
   }
 
   getTargetTiles() {
