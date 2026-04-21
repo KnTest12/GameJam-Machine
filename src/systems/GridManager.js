@@ -30,7 +30,7 @@ export default class GridManager {
     }
 
     this.highlights = {};
-    this.activeTiles = [];
+    this.activeTiles = {};
   }
 
   isWalkable(row, col) {
@@ -78,7 +78,7 @@ export default class GridManager {
     });
   }
 
-  activeTiles(tiles, color = 0xff6600, id = "default") {
+  activateTiles(tiles, color = 0xff6600, id = "default") {
     tiles.forEach(({ col, row }) => {
       if (this.map[row][col] !== 0) return;
       const key = `${id},${col},${row}`;
