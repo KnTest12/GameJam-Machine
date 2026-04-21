@@ -26,6 +26,12 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
           this.attack.id,
         );
       }
+      if (this.attack && this.attack.currentGroup.length > 0) {
+        this.scene.grid.clearHighlights(
+          this.attack.currentGroup,
+          this.attack.id,
+        );
+      }
       this.destroy();
     }
     return isDead;

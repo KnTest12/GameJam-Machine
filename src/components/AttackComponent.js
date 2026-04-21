@@ -8,6 +8,7 @@ export default class AttackComponent {
     this.telegraphDuration = config.telegraphDuration || 600;
     this.damage = config.damage || 1;
     this.telegraphedTiles = [];
+    this.currentGroup = [];
     this.isAttacking = false;
     this.id = Math.random().toString(36).slice(2);
     this.mode = config.mode || "default";
@@ -60,9 +61,10 @@ export default class AttackComponent {
       }
 
       const currentGroup = groups[index];
+      this.currentGroup = currentGroup;
       this.scene.grid.highlightTiles(currentGroup, 0xff9900, this.id);
 
-      this.scene.time.delayedCall(200, () => {
+      this.scene.time.delayedCall(this.telegraphDuration, () => {
         if (!this.enemy.active) return;
 
         const playerPos = this.scene.player.movement.gridPos;
