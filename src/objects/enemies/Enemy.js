@@ -9,6 +9,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
 
     this.health = new HealthComponent(hp);
     this.type = "default";
+    this.gridPos = { col: 0, row: 0 };
 
     this.body.setSize(30, 30);
     this.setImmovable(true);
@@ -20,8 +21,18 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     if (isDead) {
       this.scene.events.emit("enemyDeath");
       if (this.attack && this.attack.telegraphedTiles.length > 0) {
+        this.scene.grid.deactivateTiles(
+          this.attack.telegraphedTiles,
+          this.attack.id,
+        );
         this.scene.grid.clearHighlights(
           this.attack.telegraphedTiles,
+          this.attack.id,
+        );
+      }
+      if (this.attack && this.attack.currentGroup.length > 0) {
+        this.scene.grid.clearHighlights(
+          this.attack.currentGroup,
           this.attack.id,
         );
       }

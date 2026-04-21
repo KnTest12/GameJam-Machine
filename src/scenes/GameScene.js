@@ -51,9 +51,29 @@ export default class GameScene extends Phaser.Scene {
     enemyGfx.generateTexture("turret", 30, 30);
 
     enemyGfx.clear();
-    enemyGfx.fillStyle(0xffffff);
+    enemyGfx.fillStyle(0x27f5ee);
     enemyGfx.fillRect(0, 0, 30, 30);
     enemyGfx.generateTexture("coil", 30, 30);
+
+    enemyGfx.clear();
+    enemyGfx.fillStyle(0xff6600);
+    enemyGfx.fillRect(0, 0, 30, 30);
+    enemyGfx.generateTexture("bomb", 30, 30);
+
+    enemyGfx.clear();
+    enemyGfx.fillStyle(0x9900ff);
+    enemyGfx.fillRect(0, 0, 30, 30);
+    enemyGfx.generateTexture("mobile", 30, 30);
+
+    enemyGfx.clear();
+    enemyGfx.fillStyle(0xffffff);
+    enemyGfx.fillRect(0, 0, 30, 30);
+    enemyGfx.generateTexture("zone", 30, 30);
+
+    enemyGfx.clear();
+    enemyGfx.fillStyle(0xff00ff);
+    enemyGfx.fillRect(0, 0, 30, 30);
+    enemyGfx.generateTexture("nova", 30, 30);
 
     const bulletGfx = this.make.graphics({ x: 0, y: 0, add: false });
     bulletGfx.fillStyle(0xffff00);
@@ -128,6 +148,7 @@ export default class GameScene extends Phaser.Scene {
     const EnemyClass = EnemyMap[data.type] || EnemyMap.default;
     const pos = this.grid.gridToWorld(data.col, data.row);
     const enemy = new EnemyClass(this, pos.x, pos.y);
+    enemy.gridPos = { col: data.col, row: data.row };
 
     this.enemies.add(enemy);
 

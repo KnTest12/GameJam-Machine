@@ -21,6 +21,10 @@ export default class MovementComponent {
 
     const pos = this.grid.gridToWorld(nextCol, nextRow);
     this.sprite.setPosition(pos.x, pos.y);
+
+    if (this.grid.isTileDangerous(nextCol, nextRow)) {
+      this.scene.player.takeDamage(1); //hard coded zone turret damage value, poor implementation, but can improve if we have enough time
+    }
   }
 
   blockMovement(duration = 450) {

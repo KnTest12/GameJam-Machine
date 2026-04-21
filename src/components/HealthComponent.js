@@ -6,6 +6,7 @@ export default class HealthComponent {
 
   takeDamage(amount) {
     this.hp -= amount;
+    if (this.hp < 0) this.hp = 0;
     return this.isDead();
   }
 
