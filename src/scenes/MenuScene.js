@@ -22,10 +22,17 @@ export default class MenuScene extends Phaser.Scene {
         height / 2,
         "INITIALIZING... Press SPACE to begin purge sequence.",
         {
-        fontSize: "24px",
-        fill: "#aaaaaa",
+          fontSize: "24px",
+          fill: "#aaaaaa",
         },
       )
+      .setOrigin(0.5);
+
+    this.add
+      .text(width / 2, height / 2 + 60, "ARROW KEYS — move     SPACE — shoot", {
+        fontSize: "16px",
+        fill: "#666666",
+      })
       .setOrigin(0.5);
 
     this.input.keyboard.once("keydown-SPACE", () => {
