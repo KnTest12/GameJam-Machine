@@ -8,8 +8,13 @@ export default class StageManager {
     //temp
     this.stages = [
       [
-        { type: "mobile", col: 5, row: 1 },
+        { type: "turret", col: 4, row: 3 },
+        { type: "turret", col: 4, row: 0 },
+        { type: "nova", col: 5, row: 1 },
+        { type: "mobile", col: 6, row: 0 },
         { type: "zone", col: 7, row: 1 },
+        { type: "bomb", col: 5, row: 2 },
+        { type: "coil", col: 7, row: 2 },
       ],
       [
         { type: "coil", col: 5, row: 0 },
