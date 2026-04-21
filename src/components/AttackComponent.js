@@ -16,9 +16,17 @@ export default class AttackComponent {
     return [];
   }
 
+  getSequentialTiles() {
+    return [];
+  }
+
   startCooldown() {
     this.scene.time.delayedCall(this.cooldown, () => {
-      this.beginAttack();
+      if (this.mode === "sequential") {
+        this.beginSequentialAttack();
+      } else {
+        this.beginAttack();
+      }
     });
   }
 
@@ -33,6 +41,44 @@ export default class AttackComponent {
     this.scene.time.delayedCall(this.telegraphDuration, () => {
       this.resolveAttack();
     });
+  }
+
+  beginSequentialAttack() {
+    if (!this.enemy.active) return;
+    if (this.scene.gameState !== "playing") return;
+
+    const groups = this.getSequentialTiles();
+    let index = 0;
+
+    const processGroup = () => {
+      if (!this.enemy.active) return;
+      if (index >= groups.length) {
+        this.isAttacking = false;
+        this.startCooldown();
+        return;
+      }
+
+      const currentGroup = groups[index];
+      this.scene.grid.highlightTiles(currentGroup, 0xff9900, this.id);
+
+      this.scene.time.delayedCall(200, () => {
+        if (!this.enemy.active) return;
+
+        const playerPos = this.scene.player.movement.gridPos;
+        const hit = currentGroup.some(
+          (tile) => tile.col === playerPos.col && tile.row === playerPos.row,
+        );
+
+        if (hit) this.scene.player.takeDamage(this.damage);
+
+        this.scene.grid.clearHighlights(currentGroup, this.id);
+        index++;
+        processGroup();
+      });
+    };
+
+    this.isAttacking = true;
+    processGroup();
   }
 
   resolveAttack() {
