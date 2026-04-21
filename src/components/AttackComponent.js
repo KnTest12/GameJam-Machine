@@ -12,6 +12,7 @@ export default class AttackComponent {
     this.isAttacking = false;
     this.id = Math.random().toString(36).slice(2);
     this.mode = config.mode || "default";
+    this.activeDuration = config.activeDuration || 2000;
   }
 
   getTargetTiles() {
@@ -26,6 +27,8 @@ export default class AttackComponent {
     this.scene.time.delayedCall(this.cooldown, () => {
       if (this.mode === "sequential") {
         this.beginSequentialAttack();
+      } else if (this.mode === "persistent") {
+        this.beginPersistentAttack();
       } else {
         this.beginAttack();
       }
@@ -82,6 +85,32 @@ export default class AttackComponent {
 
     this.isAttacking = true;
     processGroup();
+  }
+
+  beginPersistentAttack() {
+    if (!this.enemy.active) return;
+    if (this.scene.gameState !== "playing") return;
+    this.isAttacking = true;
+
+    this.telegraphedTiles = this.getTargetTiles();
+    const tiles = this.telegraphedTiles;
+
+    // warning phase
+    this.scene.grid.highlightTiles(tiles, 0xffff00, this.id);
+
+    this.scene.time.delayedCall(this.telegraphDuration, () => {
+      if (!this.enemy.active) return;
+      // active phase
+      this.scene.grid.clearHighlights(tiles, this.id);
+      this.scene.grid.activateTiles(tiles, 0xff6600, this.id);
+
+      this.scene.time.delayedCall(this.activeDuration, () => {
+        if (!this.enemy.active) return;
+        this.scene.grid.deactivateTiles(tiles, this.id);
+        this.isAttacking = false;
+        this.startCooldown();
+      });
+    });
   }
 
   resolveAttack() {
