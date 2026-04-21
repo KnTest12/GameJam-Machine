@@ -3,6 +3,7 @@ import TurretEnemy from "./TurretEnemy.js";
 import CoilEnemy from "./CoilEnemy.js";
 import BombEnemy from "./BombEnemy.js";
 import MobileEnemy from "./MobileEnemy.js";
+import ZoneEnemy from "./ZoneEnemy.js";
 
 export const EnemyMap = {
   default: Enemy, //temporary, just to see if super class works
@@ -10,6 +11,7 @@ export const EnemyMap = {
   coil: CoilEnemy,
   bomb: BombEnemy,
   mobile: MobileEnemy,
+  zone: ZoneEnemy,
 };
 
 export { Enemy, TurretEnemy, CoilEnemy };
