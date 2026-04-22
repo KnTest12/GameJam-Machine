@@ -3,7 +3,7 @@ import AttackComponent from "../../components/AttackComponent.js";
 
 export default class TurretEnemy extends Enemy {
   constructor(scene, x, y) {
-    super(scene, x, y, "turret", 1);
+    super(scene, x, y, "turret", 5);
     this.type = "turret";
     this.attack = new AttackComponent(scene, this, {
       cooldown: 2500,

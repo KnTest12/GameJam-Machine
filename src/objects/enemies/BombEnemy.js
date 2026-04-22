@@ -3,7 +3,7 @@ import AttackComponent from "../../components/AttackComponent.js";
 
 export default class BombEnemy extends Enemy {
   constructor(scene, x, y) {
-    super(scene, x, y, "bomb", 3);
+    super(scene, x, y, "bomb", 8);
     this.type = "bomb";
     this.attack = new AttackComponent(scene, this, {
       cooldown: 5000,

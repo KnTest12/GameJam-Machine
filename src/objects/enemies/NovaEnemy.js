@@ -3,7 +3,7 @@ import AttackComponent from "../../components/AttackComponent.js";
 
 export default class NovaEnemy extends Enemy {
   constructor(scene, x, y) {
-    super(scene, x, y, "nova", 3);
+    super(scene, x, y, "nova", 8);
     this.type = "nova";
     this.attack = new AttackComponent(scene, this, {
       cooldown: 5000,

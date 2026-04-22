@@ -3,7 +3,7 @@ import AttackComponent from "../../components/AttackComponent.js";
 
 export default class ZoneEnemy extends Enemy {
   constructor(scene, x, y) {
-    super(scene, x, y, "zone", 10);
+    super(scene, x, y, "zone", 15);
     this.type = "zone";
     this.attack = new AttackComponent(scene, this, {
       cooldown: 2000,
