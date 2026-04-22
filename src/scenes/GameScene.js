@@ -150,14 +150,20 @@ export default class GameScene extends Phaser.Scene {
     const enemy = new EnemyClass(this, pos.x, pos.y);
     enemy.gridPos = { col: data.col, row: data.row };
     if (enemy.type === "mobile" || enemy.type === "boss") enemy.startMoving(); //poor implementation for mobile enemy edge case
+    if (enemy.type === "boss") {
+      enemy.startAttacking();
+    }
 
     this.enemies.add(enemy);
 
     const offset = data.offset ?? 0;
 
-    this.time.delayedCall(offset, () => {
-      enemy.attack.startCooldown();
-    });
+    //boss does not own an attack property, so this runs for normal enemies
+    if (enemy.attack) {
+      this.time.delayedCall(offset, () => {
+        enemy.attack.startCooldown();
+      });
+    }
   }
 
   delayMovementAfterShooting() {

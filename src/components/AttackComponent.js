@@ -4,7 +4,7 @@ export default class AttackComponent {
   constructor(scene, enemy, config = {}) {
     this.scene = scene;
     this.enemy = enemy;
-    this.cooldown = config.cooldown || 2500;
+    this.cooldown = config.cooldown ?? 2500;
     this.telegraphDuration = config.telegraphDuration || 600;
     this.damage = config.damage || 1;
     this.telegraphedTiles = [];
@@ -13,6 +13,7 @@ export default class AttackComponent {
     this.id = Math.random().toString(36).slice(2);
     this.mode = config.mode || "default";
     this.activeDuration = config.activeDuration || 2000;
+    this.onComplete = config.onComplete || null;
   }
 
   getTargetTiles() {
@@ -25,12 +26,16 @@ export default class AttackComponent {
 
   startCooldown() {
     this.scene.time.delayedCall(this.cooldown, () => {
-      if (this.mode === "sequential") {
-        this.beginSequentialAttack();
-      } else if (this.mode === "persistent") {
-        this.beginPersistentAttack();
+      if (this.onComplete) {
+        this.onComplete();
       } else {
-        this.beginAttack();
+        if (this.mode === "sequential") {
+          this.beginSequentialAttack();
+        } else if (this.mode === "persistent") {
+          this.beginPersistentAttack();
+        } else {
+          this.beginAttack();
+        }
       }
     });
   }

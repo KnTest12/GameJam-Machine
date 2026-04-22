@@ -3,41 +3,45 @@ import AttackComponent from "../../components/AttackComponent.js";
 
 export default class BossEnemy extends Enemy {
   constructor(scene, x, y) {
-    super(scene, x, y, "boss", 45);
+    super(scene, x, y, "boss", 30);
     this.type = "boss";
     this.phase = "first";
     this.phaseSpeeds = {
       first: 1000,
-      second: 800,
-      third: 500,
+      second: 500,
     };
     this.moveSpeed = this.phaseSpeeds.first;
-    // temp, need it for testing out movement first
-    this.attack = new AttackComponent(scene, this, {
-      cooldown: 5000,
-      telegraphDuration: 2000,
-      damage: 99,
-    });
+    this.phaseOneAttacks = [
+      this.createTurretAttack(scene),
+      this.createBombAttack(scene),
+      this.createCoilAttack(scene),
+      this.createNovaAttack(scene),
+      this.createWaveAttack(scene),
+    ];
+    this.phaseTwoAttacks = [];
+    this.currentAttackIndex = 0;
   }
 
   setPhase() {
-    if (this.health.hp <= 30 && this.health.hp > 15) {
+    if (this.health.hp <= 15) {
       this.phase = "second";
       this.moveSpeed = this.phaseSpeeds.second;
-    } else if (this.health.hp <= 15) {
-      this.phase = "third";
-      this.moveSpeed = this.phaseSpeeds.third;
     }
   }
 
   takeDamage(amount) {
     const isDead = super.takeDamage(amount);
+    console.log(this.health.hp);
     this.setPhase();
     return isDead;
   }
 
   startMoving() {
     this.scene.time.delayedCall(this.moveSpeed, () => this.move());
+  }
+
+  startAttacking() {
+    this.scene.time.delayedCall(1000, () => this.nextAttack());
   }
 
   move() {
@@ -67,5 +71,126 @@ export default class BossEnemy extends Enemy {
     } else {
       this.move();
     }
+  }
+
+  nextAttack() {
+    let attack;
+
+    if (this.phase == "first") {
+      attack = this.phaseOneAttacks[this.currentAttackIndex];
+      this.currentAttackIndex =
+        (this.currentAttackIndex + 1) % this.phaseOneAttacks.length;
+    } else {
+      const index = Math.floor(Math.random() * this.phaseTwoAttacks.length);
+      attack = this.phaseTwoAttacks[index];
+    }
+
+    if (attack.mode === "sequential") attack.beginSequentialAttack();
+    else attack.beginAttack();
+  }
+
+  //phase one attacks
+  createTurretAttack(scene) {
+    const attack = new AttackComponent(scene, this, {
+      cooldown: 0,
+      telegraphDuration: 500,
+      damage: 1,
+      onComplete: () => this.nextAttack(),
+    });
+    attack.getTargetTiles = () => {
+      const playerPos = scene.player.movement.gridPos;
+      return [{ col: playerPos.col, row: playerPos.row }];
+    };
+    return attack;
+  }
+
+  createCoilAttack(scene) {
+    const attack = new AttackComponent(scene, this, {
+      cooldown: 0,
+      telegraphDuration: 500,
+      damage: 1,
+      onComplete: () => this.nextAttack(),
+    });
+    attack.getTargetTiles = () => {
+      const playerPos = scene.player.movement.gridPos;
+      return [0, 1, 2, 3].map((col) => ({ col, row: playerPos.row }));
+    };
+    return attack;
+  }
+
+  createBombAttack(scene) {
+    const attack = new AttackComponent(scene, this, {
+      cooldown: 0,
+      telegraphDuration: 700,
+      damage: 99,
+      onComplete: () => this.nextAttack(),
+    });
+    attack.getTargetTiles = () => {
+      const playerPos = scene.player.movement.gridPos;
+      const tiles = [
+        { col: playerPos.col, row: playerPos.row },
+        { col: playerPos.col, row: playerPos.row - 1 },
+        { col: playerPos.col, row: playerPos.row + 1 },
+        { col: playerPos.col - 1, row: playerPos.row },
+        { col: playerPos.col + 1, row: playerPos.row },
+      ];
+      return tiles.filter(
+        (tile) =>
+          tile.col >= 0 && tile.col < 4 && tile.row >= 0 && tile.row < 4,
+      );
+    };
+    return attack;
+  }
+
+  createNovaAttack(scene) {
+    const attack = new AttackComponent(scene, this, {
+      cooldown: 0,
+      telegraphDuration: 700,
+      damage: 99,
+      mode: "sequential",
+      onComplete: () => this.nextAttack(),
+    });
+    attack.getSequentialTiles = () => {
+      const playerPos = scene.player.movement.gridPos;
+      const tiles = [
+        [{ col: playerPos.col, row: playerPos.row }],
+        [
+          { col: playerPos.col - 1, row: playerPos.row - 1 },
+          { col: playerPos.col - 1, row: playerPos.row + 1 },
+          { col: playerPos.col + 1, row: playerPos.row - 1 },
+          { col: playerPos.col + 1, row: playerPos.row + 1 },
+        ],
+      ];
+
+      return tiles
+        .map((group) =>
+          group.filter(
+            (tile) =>
+              tile.col >= 0 && tile.col < 4 && tile.row >= 0 && tile.row < 4,
+          ),
+        )
+        .filter((group) => group.length > 0);
+    };
+    return attack;
+  }
+
+  createWaveAttack(scene) {
+    const attack = new AttackComponent(scene, this, {
+      cooldown: 0,
+      telegraphDuration: 200,
+      damage: 1,
+      mode: "sequential",
+      onComplete: () => this.nextAttack(),
+    });
+    attack.getSequentialTiles = () => {
+      const currentRow = this.gridPos.row;
+      return [
+        [{ col: 3, row: currentRow }],
+        [{ col: 2, row: currentRow }],
+        [{ col: 1, row: currentRow }],
+        [{ col: 0, row: currentRow }],
+      ];
+    };
+    return attack;
   }
 }
