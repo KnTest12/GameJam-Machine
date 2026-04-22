@@ -149,6 +149,7 @@ export default class GameScene extends Phaser.Scene {
     const pos = this.grid.gridToWorld(data.col, data.row);
     const enemy = new EnemyClass(this, pos.x, pos.y);
     enemy.gridPos = { col: data.col, row: data.row };
+    if (enemy.type === "mobile") enemy.startMoving(); //poor implementation for mobile enemy edge case
 
     this.enemies.add(enemy);
 

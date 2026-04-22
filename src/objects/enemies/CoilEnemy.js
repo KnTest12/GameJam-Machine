@@ -3,7 +3,7 @@ import AttackComponent from "../../components/AttackComponent.js";
 
 export default class CoilEnemy extends Enemy {
   constructor(scene, x, y) {
-    super(scene, x, y, "coil", 2);
+    super(scene, x, y, "coil", 7);
     this.type = "coil";
     this.attack = new AttackComponent(scene, this, {
       cooldown: 3500,

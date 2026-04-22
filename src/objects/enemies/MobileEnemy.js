@@ -3,7 +3,7 @@ import AttackComponent from "../../components/AttackComponent.js";
 
 export default class MobileEnemy extends Enemy {
   constructor(scene, x, y) {
-    super(scene, x, y, "mobile", 5);
+    super(scene, x, y, "mobile", 6);
     this.type = "mobile";
     this.moveSpeed = 1000;
     this.moveDirection = 1;
@@ -24,10 +24,11 @@ export default class MobileEnemy extends Enemy {
       ];
     };
 
-    this.startMoving();
+    // this.startMoving();
   }
 
   startMoving() {
+    this.moveDirection = this.gridPos.row >= 3 ? -1 : 1;
     this.scene.time.delayedCall(this.moveSpeed, () => this.move());
   }
 
