@@ -12,6 +12,12 @@ export default class BossEnemy extends Enemy {
       third: 500,
     };
     this.moveSpeed = this.phaseSpeeds.first;
+    // temp, need it for testing out movement first
+    this.attack = new AttackComponent(scene, this, {
+      cooldown: 5000,
+      telegraphDuration: 2000,
+      damage: 99,
+    });
   }
 
   setPhase() {
@@ -57,8 +63,9 @@ export default class BossEnemy extends Enemy {
         this.gridPos.row,
       );
       this.setPosition(pos.x, pos.y);
+      this.scene.time.delayedCall(this.moveSpeed, () => this.move());
+    } else {
+      this.move();
     }
-
-    this.scene.time.delayedCall(this.moveSpeed, () => this.move());
   }
 }
