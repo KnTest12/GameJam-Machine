@@ -23,6 +23,7 @@ export default class BossEnemy extends Enemy {
       this.createColumnWaveAttack(scene),
       this.createRingWaveAttack(scene),
       this.createFullGridAttack(scene),
+      this.createChessPatternAttack(scene),
     ];
     this.currentAttackIndex = 0;
   }
@@ -321,6 +322,35 @@ export default class BossEnemy extends Enemy {
       return allTiles.filter(
         (tile) => !(tile.col === safeCol && tile.row === safeRow),
       );
+    };
+    return attack;
+  }
+
+  createChessPatternAttack(scene) {
+    const attack = new AttackComponent(scene, this, {
+      cooldown: 0,
+      telegraphDuration: 1000,
+      damage: 1,
+      onComplete: () =>
+        this.scene.time.delayedCall(1000, () => this.nextAttack()),
+    });
+
+    let lastAttackEven = false;
+    attack.getTargetTiles = () => {
+      const allTiles = [];
+      for (let row = 0; row < 4; row++) {
+        for (let col = 0; col < 4; col++) {
+          allTiles.push({ col, row });
+        }
+      }
+
+      if (lastAttackEven) {
+        lastAttackEven = !lastAttackEven;
+        return allTiles.filter((tile) => (tile.col + tile.row) % 2 !== 0);
+      } else {
+        lastAttackEven = !lastAttackEven;
+        return allTiles.filter((tile) => (tile.col + tile.row) % 2 === 0);
+      }
     };
     return attack;
   }
