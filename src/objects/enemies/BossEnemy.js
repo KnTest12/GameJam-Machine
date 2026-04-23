@@ -38,7 +38,6 @@ export default class BossEnemy extends Enemy {
 
   takeDamage(amount) {
     const isDead = super.takeDamage(amount);
-    console.log(this.health.hp);
     this.setPhase();
     return isDead;
   }
