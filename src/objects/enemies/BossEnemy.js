@@ -5,7 +5,7 @@ export default class BossEnemy extends Enemy {
   constructor(scene, x, y) {
     super(scene, x, y, "boss", 30);
     this.type = "boss";
-    this.phase = "second";
+    this.phase = "first";
     this.phaseSpeeds = {
       first: 1000,
       second: 500,
@@ -19,6 +19,7 @@ export default class BossEnemy extends Enemy {
       this.createWaveAttack(scene),
     ];
     this.phaseTwoAttacks = [
+      this.createTurretAttack(scene),
       this.createRowWaveAttack(scene),
       this.createColumnWaveAttack(scene),
       this.createRingWaveAttack(scene),
@@ -101,7 +102,13 @@ export default class BossEnemy extends Enemy {
       cooldown: 0,
       telegraphDuration: 500,
       damage: 1,
-      onComplete: () => this.nextAttack(),
+      onComplete: () => {
+        if (this.phase === "first") {
+          this.nextAttack();
+        } else {
+          this.scene.time.delayedCall(1000, () => this.nextAttack());
+        }
+      },
     });
     attack.getTargetTiles = () => {
       const playerPos = scene.player.movement.gridPos;
