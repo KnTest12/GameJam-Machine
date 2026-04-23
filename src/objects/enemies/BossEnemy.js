@@ -22,6 +22,7 @@ export default class BossEnemy extends Enemy {
       this.createRowWaveAttack(scene),
       this.createColumnWaveAttack(scene),
       this.createRingWaveAttack(scene),
+      this.createFullGridAttack(scene),
     ];
     this.currentAttackIndex = 0;
   }
@@ -269,7 +270,8 @@ export default class BossEnemy extends Enemy {
       telegraphDuration: 1000,
       damage: 1,
       mode: "sequential",
-      onComplete: () => this.nextAttack(),
+      onComplete: () =>
+        this.scene.time.delayedCall(1000, () => this.nextAttack()),
     });
     attack.getSequentialTiles = () => {
       const outerRing = [
@@ -293,6 +295,32 @@ export default class BossEnemy extends Enemy {
         { col: 2, row: 2 },
       ];
       return [innerRing, outerRing];
+    };
+    return attack;
+  }
+
+  createFullGridAttack(scene) {
+    const attack = new AttackComponent(scene, this, {
+      cooldown: 0,
+      telegraphDuration: 1500,
+      damage: 1,
+      onComplete: () =>
+        this.scene.time.delayedCall(2000, () => this.nextAttack()),
+    });
+
+    attack.getTargetTiles = () => {
+      const allTiles = [];
+      for (let row = 0; row < 4; row++) {
+        for (let col = 0; col < 4; col++) {
+          allTiles.push({ col, row });
+        }
+      }
+      const safeRow = Math.floor(Math.random() * 4);
+      const safeCol = Math.floor(Math.random() * 4);
+
+      return allTiles.filter(
+        (tile) => !(tile.col === safeCol && tile.row === safeRow),
+      );
     };
     return attack;
   }
