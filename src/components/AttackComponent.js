@@ -4,7 +4,7 @@ export default class AttackComponent {
   constructor(scene, enemy, config = {}) {
     this.scene = scene;
     this.enemy = enemy;
-    this.cooldown = config.cooldown || 2500;
+    this.cooldown = config.cooldown ?? 2500;
     this.telegraphDuration = config.telegraphDuration || 600;
     this.damage = config.damage || 1;
     this.telegraphedTiles = [];
@@ -13,6 +13,8 @@ export default class AttackComponent {
     this.id = Math.random().toString(36).slice(2);
     this.mode = config.mode || "default";
     this.activeDuration = config.activeDuration || 2000;
+    this.onComplete = config.onComplete || null;
+    this.damageOnEntry = config.damageOnEntry || false;
   }
 
   getTargetTiles() {
@@ -25,12 +27,16 @@ export default class AttackComponent {
 
   startCooldown() {
     this.scene.time.delayedCall(this.cooldown, () => {
-      if (this.mode === "sequential") {
-        this.beginSequentialAttack();
-      } else if (this.mode === "persistent") {
-        this.beginPersistentAttack();
+      if (this.onComplete) {
+        this.onComplete();
       } else {
-        this.beginAttack();
+        if (this.mode === "sequential") {
+          this.beginSequentialAttack();
+        } else if (this.mode === "persistent") {
+          this.beginPersistentAttack();
+        } else {
+          this.beginAttack();
+        }
       }
     });
   }
@@ -51,10 +57,8 @@ export default class AttackComponent {
   beginSequentialAttack() {
     if (!this.enemy.active) return;
     if (this.scene.gameState !== "playing") return;
-
     const groups = this.getSequentialTiles();
     let index = 0;
-
     const processGroup = () => {
       if (!this.enemy.active) return;
       if (index >= groups.length) {
@@ -62,27 +66,42 @@ export default class AttackComponent {
         this.startCooldown();
         return;
       }
-
       const currentGroup = groups[index];
       this.currentGroup = currentGroup;
       this.scene.grid.highlightTiles(currentGroup, 0xff9900, this.id);
 
+      if (this.damageOnEntry) {
+        currentGroup.forEach(({ col, row }) =>
+          this.scene.grid.addDangerousTile(col, row),
+        );
+        const playerPos = this.scene.player.movement.gridPos;
+        const alreadyOnTile = currentGroup.some(
+          (tile) => tile.col === playerPos.col && tile.row === playerPos.row,
+        );
+        if (alreadyOnTile) this.scene.player.takeDamage(this.damage);
+      }
+
       this.scene.time.delayedCall(this.telegraphDuration, () => {
         if (!this.enemy.active) return;
 
-        const playerPos = this.scene.player.movement.gridPos;
-        const hit = currentGroup.some(
-          (tile) => tile.col === playerPos.col && tile.row === playerPos.row,
-        );
-
-        if (hit) this.scene.player.takeDamage(this.damage);
+        if (!this.damageOnEntry) {
+          const playerPos = this.scene.player.movement.gridPos;
+          const hit = currentGroup.some(
+            (tile) => tile.col === playerPos.col && tile.row === playerPos.row,
+          );
+          if (hit) this.scene.player.takeDamage(this.damage);
+        }
 
         this.scene.grid.clearHighlights(currentGroup, this.id);
+        if (this.damageOnEntry) {
+          currentGroup.forEach(({ col, row }) =>
+            this.scene.grid.removeDangerousTile(col, row),
+          );
+        }
         index++;
         processGroup();
       });
     };
-
     this.isAttacking = true;
     processGroup();
   }

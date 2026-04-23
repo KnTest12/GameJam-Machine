@@ -6,7 +6,7 @@ import GameOverScene from "./scenes/GameOverScene.js";
 import EndScene from "./scenes/EndScene.js";
 
 const config = {
-  type: Phaser.AUTO,
+  type: Phaser.CANVAS,
   parent: "game",
   width: 1280,
   height: 720,

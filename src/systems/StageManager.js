@@ -70,6 +70,7 @@ export default class StageManager {
         { type: "bomb", col: 5, row: 2 },
         { type: "coil", col: 7, row: 2 },
       ],
+      [{ type: "boss", col: 7, row: 1 }],
     ];
   }
 

@@ -27,7 +27,7 @@ export default class MovementComponent {
     }
   }
 
-  blockMovement(duration = 450) {
+  blockMovement(duration = 400) {
     this.shootCooldown = true;
     this.scene.time.delayedCall(duration, () => {
       this.shootCooldown = false;

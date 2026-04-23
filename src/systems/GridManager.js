@@ -31,6 +31,7 @@ export default class GridManager {
 
     this.highlights = {};
     this.activeTiles = {};
+    this.dangerousTiles = new Set();
   }
 
   isWalkable(row, col) {
@@ -119,10 +120,19 @@ export default class GridManager {
     });
   }
 
+  addDangerousTile(col, row) {
+    this.dangerousTiles.add(`${col},${row}`);
+  }
+
+  removeDangerousTile(col, row) {
+    this.dangerousTiles.delete(`${col},${row}`);
+  }
+
   isTileDangerous(col, row) {
-    return Object.keys(this.activeTiles).some((key) =>
+    const inActiveTiles = Object.keys(this.activeTiles).some((key) =>
       key.endsWith(`,${col},${row}`),
     );
+    return inActiveTiles || this.dangerousTiles.has(`${col},${row}`);
   }
 
   clearAllActiveTiles() {
