@@ -18,7 +18,11 @@ export default class BossEnemy extends Enemy {
       this.createNovaAttack(scene),
       this.createWaveAttack(scene),
     ];
-    this.phaseTwoAttacks = [this.createRowWaveAttack(scene)];
+    this.phaseTwoAttacks = [
+      this.createRowWaveAttack(scene),
+      this.createColumnWaveAttack(scene),
+      this.createRingWaveAttack(scene),
+    ];
     this.currentAttackIndex = 0;
   }
 
@@ -223,6 +227,72 @@ export default class BossEnemy extends Enemy {
           .filter((col) => col !== safeCol)
           .map((col) => ({ col, row })),
       );
+    };
+    return attack;
+  }
+
+  createColumnWaveAttack(scene) {
+    const attack = new AttackComponent(scene, this, {
+      cooldown: 0,
+      telegraphDuration: 500,
+      damage: 1,
+      mode: "sequential",
+      damageOnEntry: true,
+      onComplete: () => this.nextAttack(),
+    });
+
+    let lastAttackLeft = false;
+    attack.getSequentialTiles = () => {
+      const safeRow = Math.floor(Math.random() * 4);
+      let direction;
+
+      if (lastAttackLeft) {
+        direction = [3, 2, 1, 0];
+        lastAttackLeft = !lastAttackLeft;
+      } else {
+        direction = [0, 1, 2, 3];
+        lastAttackLeft = !lastAttackLeft;
+      }
+
+      return direction.map((col) =>
+        [0, 1, 2, 3]
+          .filter((row) => row !== safeRow)
+          .map((row) => ({ col, row })),
+      );
+    };
+    return attack;
+  }
+
+  createRingWaveAttack(scene) {
+    const attack = new AttackComponent(scene, this, {
+      cooldown: 0,
+      telegraphDuration: 1000,
+      damage: 1,
+      mode: "sequential",
+      onComplete: () => this.nextAttack(),
+    });
+    attack.getSequentialTiles = () => {
+      const outerRing = [
+        { col: 0, row: 0 },
+        { col: 1, row: 0 },
+        { col: 2, row: 0 },
+        { col: 3, row: 0 },
+        { col: 0, row: 1 },
+        { col: 3, row: 1 },
+        { col: 0, row: 2 },
+        { col: 3, row: 2 },
+        { col: 0, row: 3 },
+        { col: 1, row: 3 },
+        { col: 2, row: 3 },
+        { col: 3, row: 3 },
+      ];
+      const innerRing = [
+        { col: 1, row: 1 },
+        { col: 2, row: 1 },
+        { col: 1, row: 2 },
+        { col: 2, row: 2 },
+      ];
+      return [innerRing, outerRing];
     };
     return attack;
   }
