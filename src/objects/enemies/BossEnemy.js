@@ -12,10 +12,10 @@ export default class BossEnemy extends Enemy {
     };
     this.moveSpeed = this.phaseSpeeds.first;
     this.phaseOneAttacks = [
-      this.createTurretAttack(scene),
-      this.createBombAttack(scene),
-      this.createCoilAttack(scene),
       this.createNovaAttack(scene),
+      this.createTurretAttack(scene),
+      this.createCoilAttack(scene),
+      this.createBombAttack(scene),
       this.createWaveAttack(scene),
     ];
     this.phaseTwoAttacks = [
@@ -119,7 +119,7 @@ export default class BossEnemy extends Enemy {
   createCoilAttack(scene) {
     const attack = new AttackComponent(scene, this, {
       cooldown: 0,
-      telegraphDuration: 500,
+      telegraphDuration: 1000,
       damage: 1,
       onComplete: () => this.nextAttack(),
     });
@@ -133,8 +133,8 @@ export default class BossEnemy extends Enemy {
   createBombAttack(scene) {
     const attack = new AttackComponent(scene, this, {
       cooldown: 0,
-      telegraphDuration: 700,
-      damage: 99,
+      telegraphDuration: 1000,
+      damage: 1,
       onComplete: () => this.nextAttack(),
     });
     attack.getTargetTiles = () => {
@@ -157,8 +157,8 @@ export default class BossEnemy extends Enemy {
   createNovaAttack(scene) {
     const attack = new AttackComponent(scene, this, {
       cooldown: 0,
-      telegraphDuration: 700,
-      damage: 99,
+      telegraphDuration: 1000,
+      damage: 1,
       mode: "sequential",
       onComplete: () => this.nextAttack(),
     });
@@ -189,7 +189,7 @@ export default class BossEnemy extends Enemy {
   createWaveAttack(scene) {
     const attack = new AttackComponent(scene, this, {
       cooldown: 0,
-      telegraphDuration: 200,
+      telegraphDuration: 500,
       damage: 1,
       mode: "sequential",
       onComplete: () => this.nextAttack(),
