@@ -5,7 +5,7 @@ export default class BossEnemy extends Enemy {
   constructor(scene, x, y) {
     super(scene, x, y, "boss", 30);
     this.type = "boss";
-    this.phase = "first";
+    this.phase = "second";
     this.phaseSpeeds = {
       first: 1000,
       second: 500,
@@ -18,7 +18,7 @@ export default class BossEnemy extends Enemy {
       this.createNovaAttack(scene),
       this.createWaveAttack(scene),
     ];
-    this.phaseTwoAttacks = [];
+    this.phaseTwoAttacks = [this.createRowWaveAttack(scene)];
     this.currentAttackIndex = 0;
   }
 
@@ -190,6 +190,39 @@ export default class BossEnemy extends Enemy {
         [{ col: 1, row: currentRow }],
         [{ col: 0, row: currentRow }],
       ];
+    };
+    return attack;
+  }
+
+  //phase two attacks
+  createRowWaveAttack(scene) {
+    const attack = new AttackComponent(scene, this, {
+      cooldown: 0,
+      telegraphDuration: 500,
+      damage: 1,
+      mode: "sequential",
+      damageOnEntry: true,
+      onComplete: () => this.nextAttack(),
+    });
+
+    let lastAttackTop = false;
+    attack.getSequentialTiles = () => {
+      const safeCol = Math.floor(Math.random() * 4);
+      let direction;
+
+      if (lastAttackTop) {
+        direction = [3, 2, 1, 0];
+        lastAttackTop = !lastAttackTop;
+      } else {
+        direction = [0, 1, 2, 3];
+        lastAttackTop = !lastAttackTop;
+      }
+
+      return direction.map((row) =>
+        [0, 1, 2, 3]
+          .filter((col) => col !== safeCol)
+          .map((col) => ({ col, row })),
+      );
     };
     return attack;
   }
