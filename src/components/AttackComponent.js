@@ -121,7 +121,7 @@ export default class AttackComponent {
       if (!this.enemy.active) return;
       // active phase
       this.scene.grid.clearHighlights(tiles, this.id);
-      this.scene.grid.activateTiles(tiles, 0xff6600, this.id);
+      this.scene.grid.activateTiles(tiles, 0xff0000, this.id);
 
       this.standingTimer = this.scene.time.addEvent({
         delay: 500,
