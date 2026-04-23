@@ -79,7 +79,7 @@ export default class GridManager {
     });
   }
 
-  activateTiles(tiles, color = 0xff6600, id = "default") {
+  activateTiles(tiles, color = 0xff0000, id = "default") {
     tiles.forEach(({ col, row }) => {
       if (this.map[row][col] !== 0) return;
       const key = `${id},${col},${row}`;
