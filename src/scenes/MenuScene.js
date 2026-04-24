@@ -1,12 +1,20 @@
 import * as Phaser from "phaser";
 import { SCENES } from "../constants/scenes.js";
+import AudioManager from "../systems/AudioManager.js";
 
 export default class MenuScene extends Phaser.Scene {
   constructor() {
     super(SCENES.MENU);
   }
 
+  preload() {
+    this.load.audio("menu", "../assets/audio/menu.wav");
+  }
+
   create() {
+    this.audio = new AudioManager(this);
+    this.audio.playBgm("menu");
+
     const { width, height } = this.scale;
 
     this.add
@@ -36,6 +44,7 @@ export default class MenuScene extends Phaser.Scene {
       .setOrigin(0.5);
 
     this.input.keyboard.once("keydown-SPACE", () => {
+      this.audio.stopBgm();
       this.scene.start(SCENES.GAME, { stage: 0 });
     });
   }
