@@ -14,13 +14,15 @@ export default class AudioManager {
     );
     this.scene.events.on("enemyHit", () => this.play("enemyHit"));
     this.scene.events.on("enemyDeath", () => this.play("enemyDeath"));
-    this.scene.events.on("bossTransition", () => this.play("bossTransition"));
+    this.scene.events.on("bossTransition", () => {
+      this.playBgm("bossBattle2");
+    });
     this.scene.events.on("bossDeath", () => this.play("bossDeath"));
     this.scene.events.on("stageClear", () => this.play("stageClear"));
   }
 
   play(key, config = {}) {
-    this.scene.sound.play(key, { volume: 0.5, ...config });
+    this.scene.sound.play(key, { volume: 0.2, ...config });
   }
 
   playBgm(key, config = {}) {

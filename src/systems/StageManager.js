@@ -75,6 +75,10 @@ export default class StageManager {
   }
 
   startStage() {
+    if (this.currentStage === this.stages.length - 1) {
+      this.scene.audio.playBgm("bossBattle");
+    }
+
     const stage = this.stages[this.currentStage];
     this.scene.enemies.clear(true, true);
 
