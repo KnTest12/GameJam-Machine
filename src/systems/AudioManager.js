@@ -5,23 +5,35 @@ export default class AudioManager {
   }
 
   registerEvents() {
-    this.scene.events.on("playerShoot", () => this.play("playerShoot"));
-    this.scene.events.on("playerHit", () => this.play("playerHit"));
-    this.scene.events.on("playerDeath", () => this.play("playerDeath"));
-    this.scene.events.on("enemyAttack", () => this.play("enemyAttack"));
-    this.scene.events.on("enemyAttackResolve", () =>
-      this.play("enemyAttackResolve"),
-    );
-    this.scene.events.on("enemyHit", () => this.play("enemyHit"));
-    this.scene.events.on("enemyDeath", () => this.play("enemyDeath"));
-    this.scene.events.once("bossTransition", () => {
-      this.playBgm("bossBattle2");
+    this.handlers = {
+      playerShoot: () => this.play("playerShoot"),
+      playerHit: () => this.play("playerHit"),
+      playerDeath: () => this.play("playerDeath"),
+      enemyAttack: () => this.play("enemyAttack"),
+      enemyAttackResolve: () => this.play("enemyAttackResolve"),
+      enemyHit: () => this.play("enemyHit"),
+      enemyDeath: () => this.play("enemyDeath"),
+      bossTransition: () => this.playBgm("bossBattle2"),
+      bossDeath: () => {
+        this.play("bossDeath");
+        this.stopBgm();
+      },
+      stageClear: () => this.play("stageClear"),
+    };
+
+    Object.entries(this.handlers).forEach(([event, handler]) => {
+      if (event === "bossTransition") {
+        this.scene.events.once(event, handler);
+      } else {
+        this.scene.events.on(event, handler);
+      }
     });
-    this.scene.events.on("bossDeath", () => {
-      this.play("bossDeath");
-      this.stopBgm();
+
+    this.scene.events.once("shutdown", () => {
+      Object.entries(this.handlers).forEach(([event, handler]) => {
+        this.scene.events.off(event, handler);
+      });
     });
-    this.scene.events.on("stageClear", () => this.play("stageClear"));
   }
 
   play(key, config = {}) {
@@ -30,7 +42,7 @@ export default class AudioManager {
 
   playBgm(key, config = {}) {
     if (this.bgm) this.bgm.stop();
-    this.bgm = this.scene.sound.add(key, { volume: 0.8, loop: true });
+    this.bgm = this.scene.sound.add(key, { volume: 0.7, loop: true });
     this.bgm.play();
   }
 
