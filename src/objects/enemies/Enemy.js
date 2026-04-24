@@ -19,7 +19,11 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     const isDead = this.health.takeDamage(amount);
     this.scene.events.emit("enemyHit");
     if (isDead) {
-      this.scene.events.emit("enemyDeath");
+      if (this.type === "boss") {
+        this.scene.events.emit("bossDeath");
+      } else {
+        this.scene.events.emit("enemyDeath");
+      }
       if (this.attack && this.attack.telegraphedTiles.length > 0) {
         this.scene.grid.deactivateTiles(
           this.attack.telegraphedTiles,
