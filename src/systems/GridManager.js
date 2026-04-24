@@ -59,6 +59,7 @@ export default class GridManager {
   }
 
   highlightTiles(tiles, color = 0xff9000, id = "default") {
+    this.scene.events.emit("enemyAttack");
     tiles.forEach(({ col, row }) => {
       if (this.map[row][col] !== 0) return;
       const key = `${id},${col},${row}`;
@@ -101,6 +102,7 @@ export default class GridManager {
   }
 
   clearHighlights(tiles, id = "default") {
+    this.scene.events.emit("enemyAttackResolve");
     tiles.forEach(({ col, row }) => {
       const key = `${id},${col},${row}`;
       if (this.highlights[key]) {

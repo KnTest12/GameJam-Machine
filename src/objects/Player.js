@@ -34,6 +34,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
   takeDamage(amount) {
     if (this.invicible) return false;
+    this.scene.events.emit("playerHit");
     const isDead = this.health.takeDamage(amount);
     this.triggerIframes();
     if (isDead) {

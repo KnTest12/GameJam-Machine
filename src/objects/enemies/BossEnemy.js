@@ -30,7 +30,8 @@ export default class BossEnemy extends Enemy {
   }
 
   setPhase() {
-    if (this.health.hp <= 15) {
+    if (this.health.hp <= 15 && this.phase !== "second") {
+      this.scene.events.emit("bossTransition");
       this.phase = "second";
       this.moveSpeed = this.phaseSpeeds.second;
     }
