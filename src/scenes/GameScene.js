@@ -23,7 +23,7 @@ export default class GameScene extends Phaser.Scene {
     );
     this.load.audio("enemyHit", "../assets/audio/enemyHit.wav");
     this.load.audio("enemyDeath", "../assets/audio/enemyDeath.wav");
-    this.load.audio("bossDeath", "../assets/audio/bossDeath2.wav");
+    this.load.audio("bossDeath", "../assets/audio/bossDeath.wav");
     this.load.audio("bossTransition", "../assets/audio/bossTransition.wav");
     this.load.audio("stageClear", "../assets/audio/stageClear.wav");
     this.load.image(
