@@ -14,7 +14,7 @@ export default class AudioManager {
     );
     this.scene.events.on("enemyHit", () => this.play("enemyHit"));
     this.scene.events.on("enemyDeath", () => this.play("enemyDeath"));
-    this.scene.events.on("bossTransition", () => {
+    this.scene.events.once("bossTransition", () => {
       this.playBgm("bossBattle2");
     });
     this.scene.events.on("bossDeath", () => this.play("bossDeath"));
