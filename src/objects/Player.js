@@ -35,31 +35,56 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
   takeDamage(amount) {
     if (this.invicible) return false;
     const isDead = this.health.takeDamage(amount);
-    this.triggerIframes();
+
     if (isDead) {
       this.scene.events.emit("playerDeath");
-      this.destroy();
+      this.destroyTween();
     } else {
       this.scene.events.emit("playerHit");
+      this.triggerIframes();
     }
     return isDead;
   }
 
+  destroyTween() {
+    let jitters = 0;
+    const originalX = this.x;
+    const originalY = this.y;
+
+    const jitter = () => {
+      if (jitters >= 8) {
+        this.scene.tweens.add({
+          targets: this,
+          alpha: 0,
+          duration: 300,
+          onComplete: () => this.setVisible(false),
+        });
+        return;
+      }
+      this.setPosition(
+        originalX + Phaser.Math.Between(-6, 6),
+        originalY + Phaser.Math.Between(-6, 6),
+      );
+      this.setAlpha(jitters % 2 === 0 ? 0.3 : 1);
+      jitters++;
+      this.scene.time.delayedCall(50, jitter);
+    };
+    jitter();
+  }
+
   triggerIframes() {
     this.invicible = true;
-    if (this.health.hp !== 0) {
-      this.scene.tweens.add({
-        targets: this,
-        alpha: 0,
-        duration: 80,
-        yoyo: true,
-        repeat: 5,
-        onComplete: () => {
-          this.setAlpha(1);
-          this.invicible = false;
-        },
-      });
-    }
+    this.scene.tweens.add({
+      targets: this,
+      alpha: 0,
+      duration: 80,
+      yoyo: true,
+      repeat: 5,
+      onComplete: () => {
+        this.setAlpha(1);
+        this.invicible = false;
+      },
+    });
   }
 
   clearBullets() {
