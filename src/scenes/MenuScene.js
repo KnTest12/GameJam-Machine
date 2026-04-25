@@ -18,7 +18,7 @@ export default class MenuScene extends Phaser.Scene {
     const { width, height } = this.scale;
 
     this.add
-      .text(width / 2, height / 2 - 80, "Placeholder Title Machine", {
+      .text(width / 2, height / 2 - 80, "ROGUE.EXE", {
         fontSize: "48px",
         fill: "#ffffff",
       })
