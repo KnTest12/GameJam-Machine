@@ -83,6 +83,14 @@ export default class GameScene extends Phaser.Scene {
     enemyGfx.fillRect(0, 0, 30, 30);
     enemyGfx.generateTexture("nova", 30, 30);
 
+    const bossGfx = this.make.graphics({ x: 0, y: 0, add: false });
+    bossGfx.fillStyle(0x000000);
+    bossGfx.fillRect(0, 0, 30, 30);
+    bossGfx.lineStyle(2, 0x00ff41);
+    bossGfx.strokeRect(1, 1, 28, 28);
+    bossGfx.lineBetween(0, 30, 30, 0);
+    bossGfx.generateTexture("boss", 30, 30);
+
     const bulletGfx = this.make.graphics({ x: 0, y: 0, add: false });
     bulletGfx.fillStyle(0xffff00);
     bulletGfx.fillRect(0, 0, 10, 6);
