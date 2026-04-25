@@ -28,10 +28,6 @@ export default class GameScene extends Phaser.Scene {
     this.load.audio("battle", "../assets/audio/battle.wav");
     this.load.audio("bossBattle", "../assets/audio/bossBgm1.wav");
     this.load.audio("bossBattle2", "../assets/audio/bossBgm2.wav");
-    this.load.image(
-      "placeholderbackground",
-      "../assets/placeholderbackground.png",
-    );
   }
 
   create() {
@@ -43,7 +39,6 @@ export default class GameScene extends Phaser.Scene {
     this.grid = new GridManager(this);
 
     this.physics.world.setBounds(0, 0, width, height);
-    // this.add.image(width / 2, height / 2, "placeholderbackground");
     this.drawGrid();
     this.audio.playBgm("battle");
 
