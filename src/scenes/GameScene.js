@@ -143,7 +143,7 @@ export default class GameScene extends Phaser.Scene {
     const { width, height } = this.scale;
 
     const text = this.add
-      .text(width / 2, height / 2, "DATA ABSORBED", {
+      .text(width / 2, height / 2 - 50, "DATA ABSORBED", {
         fontSize: "32px",
         fontStyle: "bold",
         color: "#ffffff",
