@@ -22,7 +22,7 @@ export default class AudioManager {
     };
 
     Object.entries(this.handlers).forEach(([event, handler]) => {
-      if (event === "bossTransition") {
+      if (event === "bossTransition" || event === "playerDeath") {
         this.scene.events.once(event, handler);
       } else {
         this.scene.events.on(event, handler);

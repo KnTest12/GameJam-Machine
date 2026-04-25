@@ -41,7 +41,21 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         );
       }
       this.destroy();
+    } else {
+      this.flashHit();
     }
     return isDead;
+  }
+
+  flashHit() {
+    this.setTint(0xffffff);
+    this.scene.tweens.add({
+      targets: this,
+      scaleX: 1.3,
+      scaleY: 1.3,
+      duration: 60,
+      yoyo: true,
+      onComplete: () => this.clearTint(),
+    });
   }
 }
