@@ -141,9 +141,16 @@ export default class GameScene extends Phaser.Scene {
     this.events.emit("stageClear");
     this.physics.pause();
     const { width, height } = this.scale;
+    let message;
+
+    if (this.stage.currentStage === this.stage.stages.length - 1) {
+      message = "ROGUE AI DELETED";
+    } else {
+      message = "DATA ABSORBED";
+    }
 
     const text = this.add
-      .text(width / 2, height / 2 - 50, "DATA ABSORBED", {
+      .text(width / 2, height / 2 - 50, `${message}`, {
         fontSize: "32px",
         fontStyle: "bold",
         color: "#ffffff",
