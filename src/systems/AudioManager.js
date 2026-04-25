@@ -37,12 +37,12 @@ export default class AudioManager {
   }
 
   play(key, config = {}) {
-    this.scene.sound.play(key, { volume: 0.2, ...config });
+    this.scene.sound.play(key, { volume: 1.0, ...config });
   }
 
   playBgm(key, config = {}) {
     if (this.bgm) this.bgm.stop();
-    this.bgm = this.scene.sound.add(key, { volume: 0.4, loop: true });
+    this.bgm = this.scene.sound.add(key, { volume: 3.0, loop: true });
     this.bgm.play();
   }
 
