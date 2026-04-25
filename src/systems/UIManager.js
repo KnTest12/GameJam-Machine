@@ -13,7 +13,7 @@ export default class UIManager {
       .setDepth(10);
 
     this.currentStageText = this.scene.add
-      .text(1000, 20, `CURRENT DATA CLUSTER: ${this.stage.currentStage + 1}`, {
+      .text(1080, 20, `DATA_CLUSTER: ${this.stage.currentStage + 1}`, {
         fontSize: "20px",
         color: "#00ff99",
         fontFamily: "monospace",
@@ -24,7 +24,7 @@ export default class UIManager {
   update() {
     this.hpText.setText(`INTEGRITY: ${this.player.health.hp}`);
     this.currentStageText.setText(
-      `CURRENT DATA CLUSTER: ${this.stage.currentStage + 1}`,
+      `DATA_CLUSTER: ${this.stage.currentStage + 1}`,
     );
   }
 }
