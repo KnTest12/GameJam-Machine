@@ -28,10 +28,6 @@ export default class GameScene extends Phaser.Scene {
     this.load.audio("battle", "../assets/audio/battle.wav");
     this.load.audio("bossBattle", "../assets/audio/bossBgm1.wav");
     this.load.audio("bossBattle2", "../assets/audio/bossBgm2.wav");
-    this.load.image(
-      "placeholderbackground",
-      "../assets/placeholderbackground.png",
-    );
   }
 
   create() {
@@ -43,7 +39,6 @@ export default class GameScene extends Phaser.Scene {
     this.grid = new GridManager(this);
 
     this.physics.world.setBounds(0, 0, width, height);
-    // this.add.image(width / 2, height / 2, "placeholderbackground");
     this.drawGrid();
     this.audio.playBgm("battle");
 
@@ -87,6 +82,14 @@ export default class GameScene extends Phaser.Scene {
     enemyGfx.fillStyle(0xff00ff);
     enemyGfx.fillRect(0, 0, 30, 30);
     enemyGfx.generateTexture("nova", 30, 30);
+
+    const bossGfx = this.make.graphics({ x: 0, y: 0, add: false });
+    bossGfx.fillStyle(0x000000);
+    bossGfx.fillRect(0, 0, 30, 30);
+    bossGfx.lineStyle(2, 0x00ff41);
+    bossGfx.strokeRect(1, 1, 28, 28);
+    bossGfx.lineBetween(0, 30, 30, 0);
+    bossGfx.generateTexture("boss", 30, 30);
 
     const bulletGfx = this.make.graphics({ x: 0, y: 0, add: false });
     bulletGfx.fillStyle(0xffff00);
@@ -138,9 +141,16 @@ export default class GameScene extends Phaser.Scene {
     this.events.emit("stageClear");
     this.physics.pause();
     const { width, height } = this.scale;
+    let message;
+
+    if (this.stage.currentStage === this.stage.stages.length - 1) {
+      message = "ROGUE AI DELETED";
+    } else {
+      message = "DATA ABSORBED";
+    }
 
     const text = this.add
-      .text(width / 2, height / 2, "DATA ABSORBED", {
+      .text(width / 2, height / 2 - 50, `${message}`, {
         fontSize: "32px",
         fontStyle: "bold",
         color: "#ffffff",
