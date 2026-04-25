@@ -39,6 +39,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     this.triggerIframes();
     if (isDead) {
       this.scene.events.emit("playerDeath");
+      this.destroy();
     }
     return isDead;
   }
