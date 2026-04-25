@@ -1,12 +1,20 @@
 import * as Phaser from "phaser";
 import { SCENES } from "../constants/scenes.js";
+import AudioManager from "../systems/AudioManager.js";
 
 export default class EndScene extends Phaser.Scene {
   constructor() {
     super(SCENES.END);
   }
 
+  preload() {
+    this.load.audio("end", "../assets/audio/end.wav");
+  }
+
   create() {
+    this.audio = new AudioManager(this);
+    this.audio.play("end");
+
     const { width, height } = this.scale;
 
     this.add
@@ -22,7 +30,7 @@ export default class EndScene extends Phaser.Scene {
       })
       .setOrigin(0.5);
 
-    this.time.delayedCall(5000, () => {
+    this.time.delayedCall(6000, () => {
       this.scene.start(SCENES.MENU);
     });
   }

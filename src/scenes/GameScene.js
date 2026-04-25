@@ -19,13 +19,15 @@ export default class GameScene extends Phaser.Scene {
     this.load.audio("enemyAttack", "../assets/audio/enemyAttack.wav");
     this.load.audio(
       "enemyAttackResolve",
-      "../assets/audio/enemyAttackResolve.wav",
+      "../assets/audio/enemyAttackClear.wav",
     );
     this.load.audio("enemyHit", "../assets/audio/enemyHit.wav");
     this.load.audio("enemyDeath", "../assets/audio/enemyDeath.wav");
     this.load.audio("bossDeath", "../assets/audio/bossDeath.wav");
-    this.load.audio("bossTransition", "../assets/audio/bossTransition.wav");
     this.load.audio("stageClear", "../assets/audio/stageClear.wav");
+    this.load.audio("battle", "../assets/audio/battle.wav");
+    this.load.audio("bossBattle", "../assets/audio/bossBgm1.wav");
+    this.load.audio("bossBattle2", "../assets/audio/bossBgm2.wav");
     this.load.image(
       "placeholderbackground",
       "../assets/placeholderbackground.png",
@@ -41,8 +43,9 @@ export default class GameScene extends Phaser.Scene {
     this.grid = new GridManager(this);
 
     this.physics.world.setBounds(0, 0, width, height);
-    this.add.image(width / 2, height / 2, "placeholderbackground");
+    // this.add.image(width / 2, height / 2, "placeholderbackground");
     this.drawGrid();
+    this.audio.playBgm("battle");
 
     //placeholders texture
     const playerGfx = this.make.graphics({ x: 0, y: 0, add: false });
@@ -186,6 +189,7 @@ export default class GameScene extends Phaser.Scene {
   //temp
   playerDeathRetry() {
     this.events.on("playerDeath", () => {
+      this.audio.stopBgm();
       this.gameState = "dead";
       this.physics.pause();
       this.time.delayedCall(2500, () => {
