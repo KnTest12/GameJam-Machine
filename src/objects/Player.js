@@ -34,29 +34,32 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
   takeDamage(amount) {
     if (this.invicible) return false;
-    this.scene.events.emit("playerHit");
     const isDead = this.health.takeDamage(amount);
     this.triggerIframes();
     if (isDead) {
       this.scene.events.emit("playerDeath");
       this.destroy();
+    } else {
+      this.scene.events.emit("playerHit");
     }
     return isDead;
   }
 
   triggerIframes() {
     this.invicible = true;
-    this.scene.tweens.add({
-      targets: this,
-      alpha: 0,
-      duration: 80,
-      yoyo: true,
-      repeat: 5,
-      onComplete: () => {
-        this.setAlpha(1);
-        this.invicible = false;
-      },
-    });
+    if (this.health.hp !== 0) {
+      this.scene.tweens.add({
+        targets: this,
+        alpha: 0,
+        duration: 80,
+        yoyo: true,
+        repeat: 5,
+        onComplete: () => {
+          this.setAlpha(1);
+          this.invicible = false;
+        },
+      });
+    }
   }
 
   clearBullets() {
