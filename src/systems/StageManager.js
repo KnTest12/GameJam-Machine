@@ -41,6 +41,10 @@ export default class StageManager {
         { type: "nova", col: 7, row: 3, offset: 2000 },
       ],
       [
+        { type: "turret", col: 6, row: 0 },
+        { type: "turret", col: 7, row: 0, offset: 1000 },
+        { type: "turret", col: 6, row: 3, offset: 2500 },
+        { type: "turret", col: 7, row: 3, offset: 3500 },
         { type: "zone", col: 6, row: 1 },
         { type: "zone", col: 6, row: 2, offset: 3000 },
         { type: "zone", col: 7, row: 1, offset: 6000 },
