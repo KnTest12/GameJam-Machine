@@ -11,8 +11,12 @@ export default class StageManager {
         { type: "turret", col: 5, row: 2 },
       ],
       [
-        { type: "coil", col: 7, row: 0 },
-        { type: "bomb", col: 7, row: 3 },
+        { type: "turret", col: 5, row: 1, offset: 1000 },
+        { type: "turret", col: 5, row: 2 },
+        { type: "coil", col: 7, row: 1 },
+        { type: "coil", col: 7, row: 2, offset: 1500 },
+        { type: "bomb", col: 7, row: 0 },
+        { type: "bomb", col: 7, row: 3, offset: 500 },
       ],
       [
         { type: "turret", col: 4, row: 0 },
