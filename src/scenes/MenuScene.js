@@ -13,6 +13,11 @@ export default class MenuScene extends Phaser.Scene {
   }
 
   create() {
+    console.log(`> UNIT_01 INITIALIZED
+> LOADING PURGE SEQUENCE...
+> TARGET: ROGUE AI CORE - UNIT_00
+> WARNING: ASSIMILATION RISK — IGNORED`);
+
     this.audio = new AudioManager(this);
     this.audio.playBgm("menu");
 
