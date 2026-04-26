@@ -11,7 +11,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     scene.add.existing(this);
     scene.physics.add.existing(this);
 
-    this.health = new HealthComponent(3);
+    this.health = new HealthComponent(5);
     this.movement = new MovementComponent(
       scene,
       this,
