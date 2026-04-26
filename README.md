@@ -65,3 +65,9 @@ You are **UNIT_01** — an AI deployed into a virtual network to hunt down and t
 ## 💻 Easter Egg
 
 Open the browser console in the menu.
+
+---
+
+## 🎮 Play the game here
+
+https://kayenk.itch.io/rogueexe
