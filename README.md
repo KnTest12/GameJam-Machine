@@ -58,6 +58,7 @@ You are **UNIT_01** — an AI deployed into a virtual network to hunt down and t
 - **Developers** — Game logic, systems, enemy AI, UI  
 - **BGM** — Personally made with Bosca Ceoil
 - **SFX** — Generated with jsfxr  
+- ChatGPT & ClaudeAi used to help with game logic
 
 ---
 
